@@ -50,21 +50,21 @@ public class VentanaVentas extends JFrame implements ActionListener {
 		JLabel etiqueta6 = new JLabel("Idcliente");
 		JLabel imagenLabel = new JLabel();
 		
-		JTextField txtId = new JTextField("");
-		JTextField txtNombre = new JTextField("");
-		JTextField txtProveedor= new JTextField("");
-		JTextField txtPrecio = new JTextField("");
-		JTextField txtCantidad = new JTextField("");
+		final JTextField txtId = new JTextField("");
+		final JTextField txtNombre = new JTextField("");
+		final JTextField txtProveedor= new JTextField("");
+		final JTextField txtPrecio = new JTextField("");
+		final JTextField txtCantidad = new JTextField("");
 		
-		JButton botonAgregar = new JButton("Consultar");
-		JButton botonVolver = new JButton("Volver");
+		final JButton botonAgregar = new JButton("Consultar");
+		final JButton botonVolver = new JButton("Volver");
 		
 		JTable tabla=new JTable();
 		   String[] columnas = {"id", "Cliente", "Fecha", "Total Venta"};//columnas de la tabla
-		   DefaultTableModel modelo = new DefaultTableModel();
+		   final DefaultTableModel modelo = new DefaultTableModel();
 		   JScrollPane desplazamiento = new JScrollPane(tabla);
 	
-		ProductoDAO consultas=new ProductoDAO();//bd
+		final ProductoDAO consultas=new ProductoDAO();//bd
 			ArrayList<ProductoVO> productos =consultas.listaDeProductos();//arreglo para llenar la tabal 
 		
 		ImageIcon imagen = new ImageIcon("Assets/logoPeq.png"); 
