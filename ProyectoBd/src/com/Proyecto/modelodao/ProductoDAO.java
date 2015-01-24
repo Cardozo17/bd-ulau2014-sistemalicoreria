@@ -35,6 +35,11 @@ public class ProductoDAO {
 	  }
 	 }
 	 
+	 /**
+	  * Permite eliminar un producto
+	  * @param codigo
+	  */
+	 
 	 public void eliminarProducto (String codigo)
 	 {
 		 DBConnection conex= new DBConnection();
@@ -47,7 +52,7 @@ public class ProductoDAO {
 			          conex.desconectar();
 			    
 			  } catch (Exception e) {
-			   JOptionPane.showMessageDialog(null, "no se pudo eliminar la producto\n"+e);
+			   JOptionPane.showMessageDialog(null, "no se pudo eliminar el producto\n"+e);
 			  }
 		 
 		 

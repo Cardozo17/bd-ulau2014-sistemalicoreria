@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import com.Proyecto.modelovo.ProductoVO;
+import com.Proyecto.modelovo.UsuarioVO;
 
 @SuppressWarnings("serial")
 public class VentanaLogin extends JFrame implements ActionListener {
@@ -68,7 +72,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta3, config);
 
-		JTextField txtUsuario = new JTextField("Usuario");
+		JTextField txtUsuario = new JTextField("");
 		config.gridx = 1;
 		config.gridy = 5;
 		config.gridheight = 1;
@@ -87,7 +91,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
 		getContentPane().add(etiqueta4, config);
 
-		JPasswordField txtContrasena = new JPasswordField("123");
+		JPasswordField txtContrasena = new JPasswordField("");
 		config.gridx = 1;
 		config.gridy = 7;
 		config.gridheight = 1;
@@ -146,6 +150,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		class FormListener implements java.awt.event.ActionListener {
 			FormListener() {
 			}
+		
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,8 +170,12 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
 		ventanaPrincipal.setVisible(true);
 		this.dispose();
-		;
+		
 	}
+	
+	
+	
+	
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
