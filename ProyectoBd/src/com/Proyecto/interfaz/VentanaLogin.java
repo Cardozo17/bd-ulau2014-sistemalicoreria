@@ -1,6 +1,7 @@
 package com.Proyecto.interfaz;
 
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,11 +13,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
+import com.Proyecto.modelodao.UsuarioDAO;
 import com.Proyecto.modelovo.ProductoVO;
 import com.Proyecto.modelovo.UsuarioVO;
+import com.sun.imageio.stream.StreamCloser.CloseAction;
 
 @SuppressWarnings("serial")
 public class VentanaLogin extends JFrame implements ActionListener {
@@ -72,7 +77,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta3, config);
 
-		JTextField txtUsuario = new JTextField("");
+		final JTextField txtUsuario = new JTextField("");
 		config.gridx = 1;
 		config.gridy = 5;
 		config.gridheight = 1;
@@ -91,7 +96,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
 		getContentPane().add(etiqueta4, config);
 
-		JPasswordField txtContrasena = new JPasswordField("");
+		final JPasswordField txtContrasena = new JPasswordField("");
 		config.gridx = 1;
 		config.gridy = 7;
 		config.gridheight = 1;
@@ -107,10 +112,11 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
+		//botonAceptar.getActionForKeyStroke(KeyStroke.getKeyStroke("ENTER"));
 
 		getContentPane().add(botonAceptar, config);
 
-		JButton botonSalir = new JButton("Salir");
+		final JButton botonSalir = new JButton("Salir");
 		config.gridx = 2;
 		config.gridy = 8;
 		config.gridheight = 1;
@@ -149,31 +155,78 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
 		class FormListener implements java.awt.event.ActionListener {
 			FormListener() {
-			}
-		
+			}	
+	
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				if (evt.getSource() == botonAceptar) {
-					VentanaLogin.this.jButton1ActionPerformed(evt);
+					
+					UsuarioVO usuario = new UsuarioVO();
+					usuario.setLogin(txtUsuario.getText());
+					usuario.setClave(txtContrasena.getText());
+					
+					//String login = usuario.getLogin();
+					//String clave= usuario.getClave();
+					
+					System.out.println(usuario.getLogin());
+					System.out.println(usuario.getClave());
+					
+					
+					boolean validacion= false;
+					UsuarioDAO usuariosbd= new UsuarioDAO();
+					ArrayList<UsuarioVO> listadeusuarios = usuariosbd.listaDeUsuarios();
+					
+					
+					for (UsuarioVO usuarioaux : listadeusuarios) {
+						
+						System.out.println(usuarioaux.getLogin());
+						System.out.println(usuarioaux.getClave());
+						
+						//String loginaux= usuarioaux.getLogin();
+						//String claveaux= usuarioaux.getClave();
+								
+								//if(clave==claveaux&&login==loginaux)
+								if((usuario.getLogin()==usuarioaux.getClave())&&(usuario.getClave()==usuarioaux.getClave()))
+								{
+									validacion= true;
+									VentanaLogin.this.botonAceptarActionPerformed(evt);
+									break;
+								}
+					}
+							if (validacion != true)
+								JOptionPane.showMessageDialog(null, "Error de Usuario O Clave","Información",JOptionPane.INFORMATION_MESSAGE);		
+						
+				}
+				else if(evt.getSource()== botonSalir){
+					
+					VentanaLogin.this.botonSalirActionPerformed(evt);
+					
 				}
 			}
 		}
 
 		FormListener formListener = new FormListener();
 		botonAceptar.addActionListener(formListener);
-
+		botonSalir.addActionListener(formListener);
+	
+		
 	}
-
-	public void jButton1ActionPerformed(ActionEvent evt) {
+	
+	
+	public void botonAceptarActionPerformed(ActionEvent evt){
 		// TODO Auto-generated method stub
+		
 		VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
 		ventanaPrincipal.setVisible(true);
 		this.dispose();
 		
 	}
 	
-	
+	public void botonSalirActionPerformed(ActionEvent evt) {
+		this.dispose();
+	}
 	
 	
 

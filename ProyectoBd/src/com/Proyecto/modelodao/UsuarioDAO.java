@@ -104,7 +104,7 @@ public class UsuarioDAO {
 	 * @return
 	 */
 	public ArrayList<UsuarioVO> listaDeUsuarios() {
-		ArrayList<UsuarioVO> miProducto = new ArrayList<UsuarioVO>();
+		ArrayList<UsuarioVO> miUsuario = new ArrayList<UsuarioVO>();
 		DBConnection conex = new DBConnection();
 
 		try {
@@ -115,7 +115,7 @@ public class UsuarioDAO {
 				UsuarioVO usuario = new UsuarioVO();
 				usuario.setLogin(res.getString("login"));
 				usuario.setClave(res.getString("clave"));
-				miProducto.add(usuario);
+				miUsuario.add(usuario);
 			}
 			res.close();
 			consulta.close();
@@ -123,9 +123,9 @@ public class UsuarioDAO {
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"no se pudo consultar el producto\n" + e);
+					"no se pudo consultar el usuario\n" + e);
 		}
-		return miProducto;
+		return miUsuario;
 	}
 
 	/**

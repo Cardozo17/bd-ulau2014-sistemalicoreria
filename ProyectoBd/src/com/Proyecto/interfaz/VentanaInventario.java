@@ -28,7 +28,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Gestor de licoreria");
+		setTitle("Gestor de Inventario de Licoreria");
 
 		setSize(800, 600);
 		setVisible(true);
@@ -74,7 +74,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 																		// para
 																		// llenar
 																		// la
-																		// tabal
+																		// tabla
 
 		ImageIcon imagen = new ImageIcon("Assets/logoPeq.png");
 
@@ -123,7 +123,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 					producto.getCantidadexist(), producto.getPreciounit() });
 		}
 
-		// Agregando a la interfase la etiqueta de ID y El campo de texto ID
+		// Agregando a la interfaz la etiqueta de ID y el campo de texto ID
 		config.gridx = 2;
 		config.gridy = 7;
 		config.gridheight = 1;
@@ -158,7 +158,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(txtNombre, config);
 
-		// Agregando a la interfase la etiqueta de Proveedor y El campo de texto
+		// Agregando a la interfaz la etiqueta de Proveedor y el campo de texto
 		// Proveedor
 		config.gridx = 4;
 		config.gridy = 7;
@@ -176,7 +176,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(txtProveedor, config);
 
-		// Agregando a la interfase la etiqueta de Precio y El campo de texto
+		// Agregando a la interfaz la etiqueta de Precio y El campo de texto
 		// Precio
 		config.gridx = 2;
 		config.gridy = 9;
@@ -194,7 +194,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(txtPrecio, config);
 
-		// Agregando a la interfase la etiqueta de Cantidad y El campo de texto
+		// Agregando a la interfaz la etiqueta de Cantidad y El campo de texto
 		// Cantidad
 		config.gridx = 3;
 		config.gridy = 9;
@@ -336,7 +336,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 
 		};
 
-		// agregando los lisenteners
+		// agregando los listeners
 		botonAgregar.addActionListener(al);
 		botonEliminar.addActionListener(al);
 		botonActualizar.addActionListener(al);
