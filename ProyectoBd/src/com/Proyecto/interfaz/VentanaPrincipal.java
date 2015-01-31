@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,10 +21,12 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Gestor de licoreria");
-		setSize(800, 600);
+		setTitle("Gestor de Licoreria");
+		Toolkit tk= Toolkit.getDefaultToolkit();
+		//setSize(1280, 750);
+		setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 		repaint();
 	}
 
@@ -33,7 +36,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		getContentPane().setBackground(Color.WHITE);
 		GridBagConstraints config = new GridBagConstraints();
 
-		JLabel etiqueta1 = new JLabel("Gestor de licoreria");
+		JLabel etiqueta1 = new JLabel("Software de Manejo Licoreria La Barca UNO S.R.L");
 		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 34));
 		config.gridx = 0;
 		config.gridy = 0;
@@ -61,7 +64,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(botonClientes, config);
 
-		final JButton botonVendedores = new JButton("Vendores");
+		final JButton botonVendedores = new JButton("Empleados");
 		config.gridx = 0;
 		config.gridy = 3;
 		config.gridheight = 1;
@@ -117,8 +120,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		config.weightx = 1;
 		config.anchor = GridBagConstraints.WEST;
 		getContentPane().add(imagenLabel, config);
+		
 
-		// Lisener de botones
+		// Listener de botones
 
 		class FormListener implements java.awt.event.ActionListener {
 			FormListener() {
@@ -198,7 +202,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	public void botonCajaActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
 		VentanaCaja ventanaCaja = new VentanaCaja();
-		// ventanaCaja.setVisible(true);
+		ventanaCaja.setVisible(true);
 		this.dispose();
 	}
 

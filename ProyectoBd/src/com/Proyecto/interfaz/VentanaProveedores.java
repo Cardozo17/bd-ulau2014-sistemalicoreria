@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("serial")
 public class VentanaProveedores extends JFrame implements ActionListener {
 
 	public VentanaProveedores() {
@@ -25,10 +27,12 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Gestor de licoreria");
+		Toolkit tk= Toolkit.getDefaultToolkit();
 
-		setSize(800, 600);
+		//setSize(800, 600);
+		setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 
 	}
 
@@ -52,8 +56,8 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 
 		/********************** Creando La tabla **************************************/
 		JTable tabla = new JTable();
-		String[] columnas = { "Cedula", "Nombre", "Apellido", "Telefono",
-				"Direccion", "Empresa", "Dia de Despacho" };
+		String[] columnas = { "RIF", "Nombre", "Apellido", "Telefono",
+				"Dirección", "Empresa", "Dia de Despacho" };
 
 		DefaultTableModel modelo = new DefaultTableModel();
 		JScrollPane desplazamiento = new JScrollPane(tabla);
@@ -90,7 +94,7 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 
 		/*********************** Creando El Formulario *******************/
 
-		JLabel etiqueta2 = new JLabel("Cedula");
+		JLabel etiqueta2 = new JLabel("RIF");
 		config.gridx = 2;
 		config.gridy = 7;
 		config.gridheight = 1;
@@ -181,23 +185,23 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(txtPresentacion, config);
 
-		JLabel etiqueta7 = new JLabel("Empresa");
-		config.gridx = 5;
-		config.gridy = 7;
-		config.gridheight = 1;
-		config.gridwidth = 1;
-		config.weightx = 0;
-		config.fill = GridBagConstraints.BOTH;
-		getContentPane().add(etiqueta7, config);
-
-		JTextField txtEmpresa = new JTextField("");
-		config.gridx = 5;
-		config.gridy = 8;
-		config.gridheight = 1;
-		config.gridwidth = 1;
-		config.weighty = 0;
-		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtEmpresa, config);
+//		JLabel etiqueta7 = new JLabel("Empresa");
+//		config.gridx = 5;
+//		config.gridy = 7;
+//		config.gridheight = 1;
+//		config.gridwidth = 1;
+//		config.weightx = 0;
+//		config.fill = GridBagConstraints.BOTH;
+//		getContentPane().add(etiqueta7, config);
+//
+//		JTextField txtEmpresa = new JTextField("");
+//		config.gridx = 5;
+//		config.gridy = 8;
+//		config.gridheight = 1;
+//		config.gridwidth = 1;
+//		config.weighty = 0;
+//		config.fill = GridBagConstraints.HORIZONTAL;
+//		getContentPane().add(txtEmpresa, config);
 
 		JLabel etiqueta8 = new JLabel("Dia de despacho");
 		config.gridx = 4;

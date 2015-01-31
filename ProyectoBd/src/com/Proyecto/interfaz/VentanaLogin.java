@@ -1,7 +1,6 @@
 package com.Proyecto.interfaz;
 
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,12 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 
 import com.Proyecto.modelodao.UsuarioDAO;
-import com.Proyecto.modelovo.ProductoVO;
 import com.Proyecto.modelovo.UsuarioVO;
-import com.sun.imageio.stream.StreamCloser.CloseAction;
 
 @SuppressWarnings("serial")
 public class VentanaLogin extends JFrame implements ActionListener {
@@ -45,7 +41,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		getContentPane().setBackground(Color.WHITE);
 		GridBagConstraints config = new GridBagConstraints();
 
-		JLabel etiqueta1 = new JLabel("Gestor de licoreria");
+		JLabel etiqueta1 = new JLabel("Gestor de Licoreria");
 		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 34));
 		config.gridx = 0;
 		config.gridy = 0;
@@ -167,8 +163,8 @@ public class VentanaLogin extends JFrame implements ActionListener {
 					usuario.setLogin(txtUsuario.getText());
 					usuario.setClave(txtContrasena.getText());
 					
-					//String login = usuario.getLogin();
-					//String clave= usuario.getClave();
+					String login = usuario.getLogin();
+					String clave= usuario.getClave();
 					
 					System.out.println(usuario.getLogin());
 					System.out.println(usuario.getClave());
@@ -181,14 +177,15 @@ public class VentanaLogin extends JFrame implements ActionListener {
 					
 					for (UsuarioVO usuarioaux : listadeusuarios) {
 						
+							
 						System.out.println(usuarioaux.getLogin());
 						System.out.println(usuarioaux.getClave());
 						
-						//String loginaux= usuarioaux.getLogin();
-						//String claveaux= usuarioaux.getClave();
+						
+						String loginaux= usuarioaux.getLogin();
+						String claveaux= usuarioaux.getClave();
 								
-								//if(clave==claveaux&&login==loginaux)
-								if((usuario.getLogin()==usuarioaux.getClave())&&(usuario.getClave()==usuarioaux.getClave()))
+								if((clave.contentEquals(claveaux) && (login.contentEquals(loginaux))))
 								{
 									validacion= true;
 									VentanaLogin.this.botonAceptarActionPerformed(evt);

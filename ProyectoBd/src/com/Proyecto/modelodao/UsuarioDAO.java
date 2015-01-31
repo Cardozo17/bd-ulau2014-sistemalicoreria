@@ -35,7 +35,7 @@ public class UsuarioDAO {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			JOptionPane.showMessageDialog(null,
-					"No se pudo agregar el producto");
+					"No se pudo agregar el usuario");
 		}
 	}
 
@@ -59,7 +59,7 @@ public class UsuarioDAO {
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"no se pudo eliminar el usuario\n" + e);
+					"No se pudo eliminar el usuario\n" + e);
 		}
 
 	}
@@ -93,7 +93,7 @@ public class UsuarioDAO {
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"no se pudo consultar el usuario\n" + e);
+					"No se pudo consultar el usuario\n" + e);
 		}
 		return miUsuario;
 	}
@@ -123,7 +123,7 @@ public class UsuarioDAO {
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"no se pudo consultar el usuario\n" + e);
+					"No se pudo consultar la lista de usuarios\n" + e);
 		}
 		return miUsuario;
 	}
@@ -151,7 +151,7 @@ public class UsuarioDAO {
 			conex.desconectar();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"no se pudo eliminar el usuario\n" + e);
+					"No se pudo eliminar el usuario\n" + e);
 			return false;
 		}
 		return true;

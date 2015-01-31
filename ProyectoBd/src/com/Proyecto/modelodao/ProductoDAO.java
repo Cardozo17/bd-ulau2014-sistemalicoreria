@@ -18,7 +18,7 @@ public class ProductoDAO {
 	  * @param producto
 	  */
 	
-	 public void agregarProducto(ProductoVO producto) 
+	 public boolean agregarProducto(ProductoVO producto) 
 	 {
 	  DBConnection conex= new DBConnection();
 	  try {
@@ -30,9 +30,12 @@ public class ProductoDAO {
 	   conex.desconectar();
 	    
 	  } catch (SQLException e) {
-	            System.out.println(e.getMessage());
+	   System.out.println(e.getMessage());
 	   JOptionPane.showMessageDialog(null, "No se pudo agregar el producto");
+	   return false;
 	  }
+	  
+	  return true;
 	 }
 	 
 	 /**
@@ -40,7 +43,7 @@ public class ProductoDAO {
 	  * @param codigo
 	  */
 	 
-	 public void eliminarProducto (String codigo)
+	 public boolean eliminarProducto (String codigo)
 	 {
 		 DBConnection conex= new DBConnection();
 		 try {
@@ -48,14 +51,16 @@ public class ProductoDAO {
 			   consulta.setString(1, codigo);
 			   consulta.execute();
 
-			          consulta.close();
+			   JOptionPane.showMessageDialog(null, "Se ha  eliminado el  producto con exito\n"); 	
+			   		   consulta.close();
 			          conex.desconectar();
 			    
 			  } catch (Exception e) {
-			   JOptionPane.showMessageDialog(null, "no se pudo eliminar el producto\n"+e);
+			   JOptionPane.showMessageDialog(null, "No se pudo eliminar el producto\n"+e);
+			   return false;
 			  }
 		 
-		 
+		 return true;
 	 }
 	    
 	/**
@@ -77,9 +82,9 @@ public class ProductoDAO {
 	    ProductoVO producto= new ProductoVO();
 	    producto.setIdproduc(res.getString("idproduc"));
 	    producto.setNombreprod(res.getString("nombreprod"));
-	    producto.setCodprov(res.getString("codprov"));
-	    producto.setCantidadexist(res.getString("cantidadexist"));
-	    producto.setPreciounit(res.getString("preciounit"));
+	    producto.setCodprov(res.getString("codproov"));
+	    producto.setCantidadexist(Integer.valueOf(res.getString("cantidadexist")));
+	    producto.setPreciounit(Float.valueOf(res.getString("preciounit")));
 	    miProducto.add(producto);
 	          }
 	          res.close();
@@ -87,7 +92,7 @@ public class ProductoDAO {
 	          conex.desconectar();
 	    
 	  } catch (Exception e) {
-	   JOptionPane.showMessageDialog(null, "no se pudo consultar la producto\n"+e);
+	   JOptionPane.showMessageDialog(null, "No se pudo consultar el producto\n"+e);
 	  }
 	  return miProducto;
 	 }
@@ -107,9 +112,9 @@ public class ProductoDAO {
 	    ProductoVO producto= new ProductoVO();
 	    producto.setIdproduc(res.getString("idproduc"));
 	    producto.setNombreprod(res.getString("nombreprod"));
-	    producto.setCodprov(res.getString("codprov"));
-	    producto.setCantidadexist(res.getString("cantidadexist"));
-	    producto.setPreciounit(res.getString("preciounit"));
+	    producto.setCodprov(res.getString("codproov"));
+	    producto.setCantidadexist(Integer.valueOf(res.getString("cantidadexist")));
+	    producto.setPreciounit(Float.valueOf(res.getString("preciounit")));
 	    miProducto.add(producto);
 	          }
 	          res.close();
@@ -117,7 +122,7 @@ public class ProductoDAO {
 	          conex.desconectar();
 	    
 	  } catch (Exception e) {
-	   JOptionPane.showMessageDialog(null, "no se pudo consultar el producto\n"+e);
+	   JOptionPane.showMessageDialog(null, "No se pudo consultar la lista  de productos\n"+e);
 	  }
 	  return miProducto;
 	 }
@@ -132,19 +137,20 @@ public class ProductoDAO {
 	  DBConnection conex= new DBConnection();
 	    
 	  try {
-	   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("UPDATE producto SET idproduc= ?,nombreprod= ?, codprov= ?, cantidadexist= ?, preciounit= ? " + " WHERE idproduc = ? ");
+	   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("UPDATE producto SET idproduc= ?,nombreprod= ?, codproov= ?, cantidadexist= ?, preciounit= ? " + " WHERE idproduc = ? ");
 	   consulta.setString(1,producto.getIdproduc());
 	   consulta.setString(2, producto.getNombreprod());
 	   consulta.setString(3, producto.getCodprov());
-	   consulta.setString(4,producto.getCantidadexist());
-	   consulta.setString(5, producto.getPreciounit());
+	   consulta.setString(4,Integer.toString(producto.getCantidadexist()));
+	   consulta.setString(5, Float.toString(producto.getPreciounit()));
 	   consulta.setString(6,producto.getIdproduc());
 	   consulta.execute();
 	    
+	   JOptionPane.showMessageDialog(null, "Se ha  actualizado el  producto con exito\n"); 
 	   consulta.close();
 	   conex.desconectar();	    
 	  } catch (Exception e) {
-	   JOptionPane.showMessageDialog(null, "no se pudo eliminar la producto\n"+e);
+	   JOptionPane.showMessageDialog(null, "No se pudo actualizar el producto\n"+e);
 	   	return false;
 	  }
 	  return true;

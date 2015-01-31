@@ -1,4 +1,4 @@
-package com.Proyecto.conexionBD;
+	package com.Proyecto.conexionBD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class DBConnection {
 	
 		   /**Parametros de conexion**/
-		   static String bd = "licorerialabarcauno";
+		   static String bd = "pruebaproyecto";
 		   static String login = "root";
 		   static String password = "runescape";
 		   static String url = "jdbc:mysql://localhost:3306/"+bd;

@@ -4,9 +4,9 @@ public class ProductoVO {
 	
 	private String idproduc;
 	private String nombreprod;
-	private String codprov;
-	private String cantidadexist;
-	private String preciounit;
+	private String codproov;
+	private int cantidadexist;
+	private float preciounit;
 	
 	public ProductoVO() {
 		super();
@@ -14,12 +14,12 @@ public class ProductoVO {
 	}
 
 
-	public ProductoVO(String idproduc, String nombreprod, String codprov,
-			String cantidadexist, String preciounit) {
+	public ProductoVO(String idproduc, String nombreprod, String codproov,
+			int cantidadexist, float preciounit) {
 		super();
 		this.idproduc = idproduc;
 		this.nombreprod = nombreprod;
-		this.codprov = codprov;
+		this.codproov = codproov;
 		this.cantidadexist = cantidadexist;
 		this.preciounit = preciounit;
 	}
@@ -38,21 +38,21 @@ public class ProductoVO {
 		this.nombreprod = nombreprod;
 	}
 	public String getCodprov() {
-		return codprov;
+		return codproov;
 	}
-	public void setCodprov(String codprov) {
-		this.codprov = codprov;
+	public void setCodprov(String codproov) {
+		this.codproov = codproov;
 	}
-	public String getCantidadexist() {
+	public int getCantidadexist() {
 		return cantidadexist;
 	}
-	public void setCantidadexist(String cantidadexist) {
+	public void setCantidadexist(int cantidadexist) {
 		this.cantidadexist = cantidadexist;
 	}
-	public String getPreciounit() {
+	public float getPreciounit() {
 		return preciounit;
 	}
-	public void setPreciounit(String preciounit) {
+	public void setPreciounit(float preciounit) {
 		this.preciounit = preciounit;
 	}
 

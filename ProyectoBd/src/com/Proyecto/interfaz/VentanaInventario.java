@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -17,10 +18,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
+
+import org.apache.commons.lang3.math.NumberUtils;
 
 import com.Proyecto.modelodao.ProductoDAO;
 import com.Proyecto.modelovo.ProductoVO;
 
+@SuppressWarnings("serial")
 public class VentanaInventario extends JFrame implements ActionListener {
 
 	public VentanaInventario() {
@@ -28,11 +36,13 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Gestor de Inventario de Licoreria");
+		setTitle("Gestor de Licoreria");
+		Toolkit tk= Toolkit.getDefaultToolkit();
 
-		setSize(800, 600);
+		//setSize(800, 600);
+		setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 
 	}
 
@@ -44,13 +54,16 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		// Declaraciones
 		GridBagConstraints config = new GridBagConstraints();
 
-		JLabel etiqueta1 = new JLabel(" Gestor de inventario");
+		JLabel etiqueta1 = new JLabel(" Gestor de Inventario");
 		JLabel etiqueta2 = new JLabel("Id");
 		JLabel etiqueta3 = new JLabel("Nombre");
 		JLabel etiqueta4 = new JLabel("Proveedor");
 		JLabel etiqueta6 = new JLabel("Precio Unitario");
 		JLabel etiqueta7 = new JLabel("Cantidad");
 		JLabel imagenLabel = new JLabel();
+		JLabel etiquetaexp = new JLabel("Sí desea actualizar ingrese todos los datos, " +
+				"Sí desea eliminar ingrese el Id y luego presione eliminar");
+		
 
 		final JTextField txtId = new JTextField("");
 		final JTextField txtNombre = new JTextField("");
@@ -64,7 +77,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		final JButton botonVolver = new JButton("Volver");
 
 		JTable tabla = new JTable();
-		String[] columnas = { "id", "Nombre", "Proveedor", "Cantidad",
+		String[] columnas = { "Id", "Nombre", "Proveedor", "Cantidad",
 				"Precio Unitario" };// columnas de la tabla
 		final DefaultTableModel modelo = new DefaultTableModel();
 		JScrollPane desplazamiento = new JScrollPane(tabla);
@@ -92,6 +105,8 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		getContentPane().add(etiqueta1, config);
 
 		/*-------------------Tabla configuracion------------*/
+		
+		
 		// Modelo de la tabla
 		modelo.setColumnIdentifiers(columnas);
 		// Barras de desplazamiento
@@ -202,6 +217,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		config.gridwidth = 1;
 		config.weightx = 0;
 		config.fill = GridBagConstraints.BOTH;
+		txtCantidad.setDocument(new FixedSizeIntNumberDocument(txtCantidad,5));
 		getContentPane().add(etiqueta7, config);
 
 		config.gridx = 3;
@@ -211,6 +227,14 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(txtCantidad, config);
+		
+		config.gridx = 1;
+		config.gridy = 10;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(etiquetaexp, config);
 
 		// boton para agregar un producto
 		config.gridx = 2;
@@ -264,17 +288,19 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		ActionListener al = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				// agarrando los datos de la ventana
-				ProductoVO p = new ProductoVO(txtId.getText(),
+				
+				
+				// obteniendo los datos de la ventana
+					ProductoVO p = new ProductoVO(txtId.getText(),
 						txtNombre.getText(), txtProveedor.getText(),
-						txtPrecio.getText(), txtCantidad.getText());
-
+						 NumberUtils.toInt(txtCantidad.getText(),0),NumberUtils.toFloat(txtPrecio.getText(),0));
+					
 				Object obj = evt.getSource();
 				if (obj == botonAgregar) {
 					botonAgregarActionPerformed(evt, p);
 					while (modelo.getRowCount() != 0) {
 						modelo.removeRow(0);
-						
+				
 
 					}
 
@@ -343,6 +369,40 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		botonVolver.addActionListener(al);
 
 	}
+	
+	
+	private class FixedSizeIntNumberDocument extends PlainDocument
+	{
+	    private JTextComponent owner;
+	    private int fixedSize;
+
+	    public FixedSizeIntNumberDocument(JTextComponent owner, int fixedSize)
+	    {
+	        this.owner = owner;
+	        this.fixedSize = fixedSize;
+	    }
+
+	    @Override
+	    public void insertString(int offs, String str, AttributeSet a)
+	            throws BadLocationException
+	    {
+	        if (getLength() + str.length() > fixedSize) {
+	            str = str.substring(0, fixedSize - getLength());
+	            this.owner.getToolkit().beep();
+	        }
+
+	        try {
+	            Integer.parseInt(str);
+	        } catch (NumberFormatException e) {
+	            // inserted text is not a number
+	            this.owner.getToolkit().beep();
+	            return;
+	        }
+
+	        super.insertString(offs, str, a);
+	    }               
+	}
+	
 
 	// acciones al presionar los botones
 	private void botonAgregarActionPerformed(ActionEvent evt,
@@ -370,6 +430,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		ventanaPrincipal.setVisible(true);
 		this.dispose();
 	}
+	
 
 	// Main de pruebas
 	@SuppressWarnings("unused")

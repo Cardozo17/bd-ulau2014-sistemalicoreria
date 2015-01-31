@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,14 +18,22 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+import com.Proyecto.modelodao.ClienteDAO;
+import com.Proyecto.modelovo.ClienteVO;
+
 public class VentanaClientes extends JFrame implements ActionListener {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public VentanaClientes() {
 
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Gestor de licoreria");
+		setTitle("Gestor de Licoreria");
 
 		setSize(800, 600);
 		setVisible(true);
@@ -37,7 +46,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		getContentPane().setBackground(Color.WHITE);
 		GridBagConstraints config = new GridBagConstraints();
 
-		JLabel etiqueta1 = new JLabel(" Gestor de clientes");
+		JLabel etiqueta1 = new JLabel(" Gestor de Clientes");
 		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 34));
 		config.gridx = 1;
 		config.gridy = 1;
@@ -48,19 +57,18 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		config.anchor = GridBagConstraints.NORTHWEST;
 		getContentPane().add(etiqueta1, config);
+		
+		final ClienteDAO consultas = new ClienteDAO();// bd
+		ArrayList<ClienteVO> clientes = consultas.listaDeClientes();
 
 		/********************** Creando La tabla **************************************/
 		JTable tabla = new JTable();
-		String[] columnas = { "Cedula", "Nombre", "Apellido", "telefono",
+		String[] columnas = { "Cedula", "Nombre", "Apellido", "Telefono",
 				"Direccion" };
 
-		DefaultTableModel modelo = new DefaultTableModel();
+		final DefaultTableModel modelo = new DefaultTableModel();
 		JScrollPane desplazamiento = new JScrollPane(tabla);
 
-		// int id, consola, obtenido,cantidad,catidadMin; // MODIFICAR VARIABLES
-		// PARA LA LECTURA
-		// float precio,presentacion;
-		// String nombre;
 
 		// Modelo de la tabla
 		modelo.setColumnIdentifiers(columnas);
@@ -75,6 +83,14 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tabla.setFillsViewportHeight(true);
 		tabla.setModel(modelo);
+		
+		//Llenando la tabla
+				for (ClienteVO cliente : clientes) {
+					modelo.addRow(new Object[] { cliente.getCid(),
+							cliente.getNombre(), cliente.getApellido(),
+							cliente.getTelf(), cliente.getDireccion() });
+				}
+		
 
 		// Agregando elementos a la ventana
 
@@ -99,7 +115,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta2, config);
 
-		JTextField txtCedula = new JTextField("");
+		final JTextField txtCedula = new JTextField("");
 		config.gridx = 2;
 		config.gridy = 8;
 		config.gridheight = 1;
@@ -117,7 +133,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta3, config);
 
-		JTextField txtNombre = new JTextField("");
+		final JTextField txtNombre = new JTextField("");
 		config.gridx = 3;
 		config.gridy = 8;
 		config.gridheight = 1;
@@ -135,16 +151,16 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta4, config);
 
-		JTextField txtPrecio = new JTextField("");
+		final JTextField txtApellido = new JTextField("");
 		config.gridx = 4;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtPrecio, config);
+		getContentPane().add(txtApellido, config);
 
-		// Combo Tipo de licor
+	
 		JLabel etiqueta5 = new JLabel("Telefono");
 		config.gridx = 3;
 		config.gridy = 9;
@@ -154,7 +170,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta5, config);
 
-		JTextField txtTelefono = new JTextField("");
+		final JTextField txtTelefono = new JTextField("");
 		config.gridx = 3;
 		config.gridy = 10;
 		config.gridheight = 1;
@@ -172,14 +188,14 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta6, config);
 
-		JTextField txtPresentacion = new JTextField("");
+		final JTextField txtDireccion = new JTextField("");
 		config.gridx = 2;
 		config.gridy = 10;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtPresentacion, config);
+		getContentPane().add(txtDireccion, config);
 
 		/*********************** Creando los botones *******************/
 
@@ -241,29 +257,114 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		ActionListener al = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
+				
+				//obteniendo los datos de la ventana
+				ClienteVO cliente= new ClienteVO();
+				
+				cliente.setCid(txtCedula.getText());
+				cliente.setNombre(txtNombre.getText());
+				cliente.setApellido(txtApellido.getText());
+				cliente.setTelf(txtTelefono.getText());
+				cliente.setDireccion(txtDireccion.getText());
+				
+				
 				Object obj = evt.getSource();
-				if (obj == botonAgregar)
-					botonAgregarActionPerformed(evt);
-				else if (obj == botonEliminar)
-					botonEliminarActionPerformed(evt);
+				if (obj == botonAgregar){
+					botonAgregarActionPerformed(evt,cliente);
+					while (modelo.getRowCount() != 0) {
+						modelo.removeRow(0);
+						
+
+					}
+
+					ArrayList<ClienteVO> clientesnew = consultas
+							.listaDeClientes();
+					for (ClienteVO clienteaux : clientesnew) {
+						modelo.addRow(new Object[] { clienteaux.getCid(),
+								clienteaux.getNombre(),
+								clienteaux.getApellido(),
+								clienteaux.getTelf(),
+								clienteaux.getDireccion() });
+					}
+				}
+				else if (obj == botonEliminar){
+					botonEliminarActionPerformed(evt,cliente);
+					
+
+					while (modelo.getRowCount() != 0) {
+						modelo.removeRow(0);
+					}
+
+					ArrayList<ClienteVO> clientesnew = consultas
+							.listaDeClientes();
+					for (ClienteVO clienteaux : clientesnew) {
+						modelo.addRow(new Object[] { clienteaux.getCid(),
+								clienteaux.getNombre(),
+								clienteaux.getApellido(),
+								clienteaux.getTelf(),
+								clienteaux.getDireccion() });
+			
+					}
+				}else if (obj == botonActualizar) {
+					botonActualizarActionPerformed(evt, cliente);
+
+					while (modelo.getRowCount() != 0) {
+						modelo.removeRow(0);
+					}
+
+					ArrayList<ClienteVO> clientesnew = consultas
+							.listaDeClientes();
+					for (ClienteVO clienteaux : clientesnew) {
+						modelo.addRow(new Object[] { clienteaux.getCid(),
+								clienteaux.getNombre(),
+								clienteaux.getApellido(),
+								clienteaux.getTelf(),
+								clienteaux.getDireccion() });
+					}
+				}	
 				else if (obj == botonVolver)
 					botonVolverActionPerformed(evt);
+				
+				txtCedula.setText("");
+				txtNombre.setText("");
+				txtApellido.setText("");
+				txtTelefono.setText("");
+				txtDireccion.setText("");
+				
 			}
+
+		
 		};
+		
+		
+		//agregando los listeners
 		botonAgregar.addActionListener(al);
 		botonEliminar.addActionListener(al);
+		botonActualizar.addActionListener(al);
 		botonVolver.addActionListener(al);
 
 	}
 
-	// acciones al precionar los botones
-	private void botonAgregarActionPerformed(ActionEvent evt) {
+	// acciones al presionar los botones
+	private void botonAgregarActionPerformed(ActionEvent evt, ClienteVO cliente) {
+		ClienteDAO clienteBD = new ClienteDAO();
+		clienteBD.registrarCliente(cliente);
+		
 
 	}
 
-	private void botonEliminarActionPerformed(ActionEvent evt) {
-
+	private void botonEliminarActionPerformed(ActionEvent evt, ClienteVO cliente){
+		ClienteDAO clienteBD = new ClienteDAO();
+		clienteBD.eliminarCliente(cliente.getCid());
 	}
+	
+	private void botonActualizarActionPerformed(ActionEvent evt,
+			ClienteVO cliente) {
+		// TODO Auto-generated method stub
+		ClienteDAO clienteBD = new ClienteDAO();
+		clienteBD.actualizarCliente(cliente);
+	}
+
 
 	private void botonVolverActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
@@ -279,6 +380,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		ventana = new VentanaClientes();
 
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

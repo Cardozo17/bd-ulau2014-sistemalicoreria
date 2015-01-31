@@ -1,0 +1,90 @@
+        create database if not exists pruebaproyecto;
+        use pruebaproyecto;
+
+        create table if not exists usuario
+        ( login varchar(20) PRIMARY KEY,
+          clave varchar(32) NOT NULL default '0000'
+        );
+        
+        create table if not exists datosempresa(
+          nombre varchar(32) not null default 'Licoreria La Barca UNO S.R.L.',
+          rif char(15) PRIMARY KEY default 'J-09012657-0',
+          diremp varchar(60) not null default 'Sector la Milagrosa #1-70 PB',
+          telefono char(15) not null default '0274-2443198'
+
+        );
+        
+        insert into datosempresa values();
+
+        create table if not exists persona
+        ( cid char(10) PRIMARY KEY,
+          nombre varchar(32) NOT NULL,
+          apellido varchar(32) NOT NULL,
+          telf char(15) default 'desconocido',
+          direccion varchar(60) default 'desconocido'
+
+        );
+
+
+        create table if not exists empleado(
+             codemp char(10) PRIMARY KEY,
+             cargo varchar(20) NOT NULL,
+             anosserv int default 0,
+             salario float not null,
+             cid char(10) not null references persona(cid)
+                 on update cascade,
+             nombre varchar(32) not null references persona(nombre)
+                 on update cascade,
+             apellido varchar(32) not null references persona(apellido)
+                 on update cascade,
+             telf char(15) not null default 'desconocido' references persona(telf)
+                 on delete set null
+                 on update cascade,
+             direccion varchar(60) not null default 'desconocida' references persona(direccion)
+                 on delete set null
+                 on update cascade,
+             constraint cantanosserv check (anosserv>=0 AND anosserv<=60),
+             constraint montsalario check (salario>=0)
+        );
+
+        create table if not exists cliente(
+
+             cid char(10) NOT NULL PRIMARY KEY references persona(cid)
+                 on update cascade,
+             nombre varchar(32) not null references persona(nombre)
+                 on update cascade,
+             apellido varchar(32) not null references persona(apellido)
+                 on update cascade,
+             telf char(15) default 'desconocido' references persona(telf)
+                 on delete set null
+                 on update cascade,
+             direccion varchar(60) default 'desconocida' references persona(direccion)
+                 on delete set null
+                 on update cascade
+
+        );
+        
+        create table if not exists proveedor (
+
+              codproov char(10) PRIMARY KEY,
+              rifprov char(15) not null,
+              nombreprov varchar(32) not null,
+              dirprov varchar(60) not null default 'desconocida',
+              telfprov char(15) not null default 'desconocido',
+              diadedespacho date not null
+        );
+
+        create table if not exists producto(
+        
+               idproduc char(10) PRIMARY KEY,
+               nombreprod varchar(32) not null,
+               codproov char(10) not null references proovedor(codproov)
+               on update cascade,
+
+               cantidadexist int not null,
+               preciounit float not null,
+
+               constraint cantexist check (cantexist>=0),
+               constraint valprecunit check (preciounit>=0)
+
+        );

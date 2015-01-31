@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,16 +20,23 @@ import javax.swing.table.DefaultTableModel;
 
 public class VentanaCaja extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public VentanaCaja() {
 
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Gestor de licoreria");
+		Toolkit tk= Toolkit.getDefaultToolkit();
 
-		setSize(800, 600);
+		//setSize(800, 600);
+		setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 
 	}
 
@@ -56,10 +64,6 @@ public class VentanaCaja extends JFrame implements ActionListener {
 
 		DefaultTableModel modelo = new DefaultTableModel();
 		JScrollPane desplazamiento = new JScrollPane(tabla);
-
-		// int id, consola, obtenido,cantidad,catidadMin;
-		// float precio,presentacion;
-		// String nombre;
 
 		// Modelo de la tabla
 		modelo.setColumnIdentifiers(columnas);
@@ -256,6 +260,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 
 	// acciones al precionar los botones
 	private void botonBuscarClienteActionPerformed(ActionEvent evt) {
+		
 
 	}
 

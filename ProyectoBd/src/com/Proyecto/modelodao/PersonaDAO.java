@@ -158,7 +158,7 @@ public class PersonaDAO {
 	          conex.desconectar();
 	    
 	  } catch (Exception e) {
-	   JOptionPane.showMessageDialog(null, "no se pudo consultar la Persona\n"+e);
+	   JOptionPane.showMessageDialog(null, "No se pudo consultar la lista de personas\n"+e);
 	  }
 	  return miEmpleado;
 	 }
