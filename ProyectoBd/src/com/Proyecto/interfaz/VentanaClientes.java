@@ -48,7 +48,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 	private void initGUI() {
 		getContentPane().setLayout(new GridBagLayout());
 		getContentPane().setBackground(Color.WHITE);
-		GridBagConstraints config = new GridBagConstraints();
+		final GridBagConstraints config = new GridBagConstraints();
 
 		JLabel etiqueta1 = new JLabel(" Gestor de Clientes");
 		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 34));
@@ -239,7 +239,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 
 		/*********************** Creando los botones *******************/
 
-		// boton para agregar un producto
+		// Boton para agregar un producto
 		final JButton botonAgregar = new JButton("Agregar");
 		config.gridx = 2;
 		config.gridy = 11;
@@ -249,6 +249,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonAgregar, config);
 
+		//Boton para actualizar un producto
 		final JButton botonActualizar = new JButton("Actualizar");
 		config.gridx = 3;
 		config.gridy = 11;
@@ -258,7 +259,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonActualizar, config);
 
-		// boton para eliminar un producto
+		// Boton para eliminar un producto
 		final JButton botonEliminar = new JButton("Eliminar");
 		config.gridx = 4;
 		config.gridy = 11;
@@ -267,6 +268,17 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonEliminar, config);
+		
+		//Boton para limpiar TextFields
+		final JButton botonLimpiar = new JButton("Limpiar");
+		config.gridx = 1;
+		config.gridy = 8;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(botonLimpiar, config);
+		
 
 		// Boton para volver
 		final JButton botonVolver = new JButton("Volver");
@@ -361,15 +373,18 @@ public class VentanaClientes extends JFrame implements ActionListener {
 								clienteaux.getTelf(),
 								clienteaux.getDireccion() });
 					}
-				}	
+				}
+					else if (obj==botonLimpiar)
+					{
+						
+						txtNombre.setText("");
+						txtApellido.setText("");
+						txtDireccion.setText("");
+						
+				
+					}	
 				else if (obj == botonVolver)
 					botonVolverActionPerformed(evt);
-				
-				txtCedula.setText("");
-				txtNombre.setText("");
-				txtApellido.setText("");
-				txtTelefono.setText("");
-				txtDireccion.setText("");
 				
 			}
 
@@ -381,6 +396,7 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		botonAgregar.addActionListener(al);
 		botonEliminar.addActionListener(al);
 		botonActualizar.addActionListener(al);
+		botonLimpiar.addActionListener(al);
 		botonVolver.addActionListener(al);
 
 	}

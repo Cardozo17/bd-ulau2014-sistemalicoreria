@@ -29,7 +29,9 @@ import javax.swing.text.PlainDocument;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.Proyecto.modelodao.ProductoDAO;
+import com.Proyecto.modelodao.ProveedorDAO;
 import com.Proyecto.modelovo.ProductoVO;
+import com.Proyecto.modelovo.ProveedorVO;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 @SuppressWarnings("serial")
@@ -68,7 +70,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		JLabel imagenLabel = new JLabel();
 		JLabel etiquetaexp = new JLabel("Sí desea actualizar ingrese todos los datos, ");
 		JLabel etiquetaexp2= new JLabel("Sí desea eliminar ingrese el Id y luego presione eliminar");
-		
+		JLabel etiquetaexp3 = new JLabel("Antes de Agregar un Producto Debe Registrar el Proveedor");
 
 		final JTextField txtId = new JTextField("");
 		final JTextField txtNombre = new JTextField("");
@@ -80,6 +82,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		final JButton botonAgregar = new JButton("Agregar");
 		final JButton botonActualizar = new JButton("Actualizar");
 		final JButton botonEliminar = new JButton("Eliminar");
+		final JButton botonLimpiar = new JButton ("Limpiar");
 		final JButton botonVolver = new JButton("Volver");
 
 		JTable tabla = new JTable();
@@ -94,6 +97,10 @@ public class VentanaInventario extends JFrame implements ActionListener {
 																		// llenar
 																		// la
 																		// tabla
+		final ProveedorDAO consultas2 = new ProveedorDAO();
+		final ArrayList<ProveedorVO> proveedores = consultas2.listaDeProveedores();
+		
+		
 
 		ImageIcon imagen = new ImageIcon("Assets/logoPeq.png");
 
@@ -268,7 +275,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		getContentPane().add(txtCantidad, config);
 		
 		config.gridx = 1;
-		config.gridy = 10;
+		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
@@ -276,14 +283,22 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		getContentPane().add(etiquetaexp, config);
 		
 		config.gridx = 1;
-		config.gridy = 11;
+		config.gridy = 9;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(etiquetaexp2, config);
+		
+		config.gridx = 1;
+		config.gridy = 10;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(etiquetaexp3, config);
 
-		// boton para agregar un producto
+		// Boton para agregar un producto
 		config.gridx = 2;
 		config.gridy = 11;
 		config.gridheight = 1;
@@ -292,7 +307,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonAgregar, config);
 
-		// boton para actualizar un producto
+		// Boton para actualizar un producto
 		config.gridx = 3;
 		config.gridy = 11;
 		config.gridheight = 1;
@@ -301,7 +316,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonActualizar, config);
 
-		// boton para eliminar un producto
+		// Boton para eliminar un producto
 		config.gridx = 4;
 		config.gridy = 11;
 		config.gridheight = 1;
@@ -309,6 +324,15 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonEliminar, config);
+		
+		//Boton para limpiar
+		config.gridx = 1;
+		config.gridy = 11;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(botonLimpiar, config);
 
 		// Boton para volver
 		config.gridx = 5;
@@ -336,19 +360,32 @@ public class VentanaInventario extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				
-				ProductoVO p;
-				
+
 				// obteniendo los datos de la ventana
 			
-					 p = new ProductoVO(txtId.getText(),
-							txtNombre.getText(), txtProveedor.getText(),
-							 NumberUtils.toInt(txtCantidad.getText(),0),NumberUtils.toFloat(txtPrecio.getText(),0));
+					ProductoVO p = new ProductoVO(txtId.getText(),
+					txtNombre.getText(), txtProveedor.getText(),
+					 NumberUtils.toInt(txtCantidad.getText(),0),
+					 NumberUtils.toFloat(txtPrecio.getText(),0));
 					
-				
-				
+								
 				Object obj = evt.getSource();
 				if (obj == botonAgregar) {
-					botonAgregarActionPerformed(evt, p);
+					
+					// validador
+					boolean validador=false;
+					
+					for(ProveedorVO  proveedoraux: proveedores)
+					{	
+						if (p.getCodprov().contentEquals(proveedoraux.getCodproov()))
+						{	
+							botonAgregarActionPerformed(evt, p);
+							validador=true;
+						}		
+					}
+					if (validador==false)
+						JOptionPane.showMessageDialog(null,"El proveedor no existe o Esta Dejando Campos Vacios");	
+					
 					while (modelo.getRowCount() != 0) {
 						modelo.removeRow(0);
 				
@@ -383,7 +420,21 @@ public class VentanaInventario extends JFrame implements ActionListener {
 					}
 
 				} else if (obj == botonActualizar) {
-					botonActualizarActionPerformed(evt, p);
+					
+					// validador
+					boolean validador=false;
+					
+					for(ProveedorVO  proveedoraux: proveedores)
+					{	
+						if (p.getCodprov().contentEquals(proveedoraux.getCodproov())){
+							
+							botonActualizarActionPerformed(evt, p);
+							validador=true;
+						}
+						
+					}
+					if (validador==false)
+						JOptionPane.showMessageDialog(null,"El proveedor no existe ó Esta Dejando Campos Vacios");
 
 					while (modelo.getRowCount() != 0) {
 						modelo.removeRow(0);
@@ -399,15 +450,18 @@ public class VentanaInventario extends JFrame implements ActionListener {
 								producto.getPreciounit() });
 					}
 				}
-
+				else if(obj==botonLimpiar){
+					
+					txtId.setText("");
+					txtNombre.setText("");
+					txtProveedor.setText("");
+					//txtPrecio.setText("");
+					//txtCantidad.setText("");
+				}
 				else if (obj == botonVolver)
 					botonVolverActionPerformed(evt);
 				
-				txtId.setText("");
-				txtNombre.setText("");
-				txtProveedor.setText("");
-				txtPrecio.setText("");
-				txtCantidad.setText("");
+				
 			}
 			
 
@@ -417,7 +471,11 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		botonAgregar.addActionListener(al);
 		botonEliminar.addActionListener(al);
 		botonActualizar.addActionListener(al);
+		botonLimpiar.addActionListener(al);
 		botonVolver.addActionListener(al);
+		
+
+		
 
 	}
 	
@@ -486,6 +544,7 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		
 
 	}
+	
 
 	private void botonEliminarActionPerformed(ActionEvent evt,
 			ProductoVO producto) {
@@ -502,6 +561,8 @@ public class VentanaInventario extends JFrame implements ActionListener {
 		
 		
 	}
+	
+
 
 	private void botonVolverActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
