@@ -25,16 +25,17 @@ public class VentanaCaja extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unused")
 	public VentanaCaja() {
 
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Gestor de licoreria");
+		setTitle("Gestor de Licoreria");
 		Toolkit tk= Toolkit.getDefaultToolkit();
 
-		//setSize(800, 600);
-		setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
+		setSize(800, 600);
+		//setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
 		setVisible(true);
 		setResizable(true);
 

@@ -27,7 +27,7 @@ public class VentanaVentas extends JFrame implements ActionListener {
 	initGUI();
 	
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	setTitle("Gestor de licoreria");
+	setTitle("Gestor de Licoreria");
 
 	setSize(800,600);
 	setVisible(true);

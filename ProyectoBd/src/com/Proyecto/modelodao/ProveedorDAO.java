@@ -1,6 +1,5 @@
 package com.Proyecto.modelodao;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,9 +50,11 @@ public class ProveedorDAO {
 		   consulta.setString(1,proveedor.getCodproov());
 		   consulta.setString(2, proveedor.getRifprov());
 		   consulta.setString(3, proveedor.getNombreprov());
-		   consulta.setString(5, proveedor.getDirprov());
-		   consulta.setString(6,proveedor.getTelfprov());
-		   consulta.setString(7,proveedor.getDiadedespacho().toString());
+		   consulta.setString(4, proveedor.getDirprov());
+		   consulta.setString(5,proveedor.getTelfprov());
+		   consulta.setString(6,proveedor.getDiadedespacho());
+		   consulta.setString(7,proveedor.getCodproov());
+		   
 		   consulta.execute();
 		    
 		   JOptionPane.showMessageDialog(null, "Se ha  actualizado el proveedor con exito\n"); 
@@ -96,12 +97,12 @@ public class ProveedorDAO {
 	 * @param documento 
 	 * @return
 	 */
-	public ArrayList<ProveedorVO> consultarProovedor(String documento) {
+	public ArrayList<ProveedorVO> consultarProveedor(String documento) {
 	  ArrayList<ProveedorVO> miProveedor = new ArrayList<ProveedorVO>();
 	  DBConnection conex= new DBConnection();
 	    
 	  try {
-	   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("SELECT * FROM proveedor where cid = ? ");
+	   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("SELECT * FROM proveedor where codproov = ? ");
 	   consulta.setString(1, documento);
 	   ResultSet res = consulta.executeQuery();
 	    
@@ -112,7 +113,7 @@ public class ProveedorDAO {
 	    proveedor.setNombreprov(res.getString("nombreprov"));
 	    proveedor.setDirprov(res.getString("dirprov"));
 	    proveedor.setTelfprov(res.getString("telfprov"));
-	    proveedor.setDiadedespacho(Date.valueOf(res.getString("diadedespacho")));
+	    proveedor.setDiadedespacho(res.getString("diadedespacho"));
 	    miProveedor.add(proveedor);
 	          }
 	          res.close();
@@ -134,7 +135,7 @@ public class ProveedorDAO {
 	  DBConnection conex= new DBConnection();
 	     
 	  try {
-	   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("SELECT * FROM empleado");
+	   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("SELECT * FROM proveedor");
 	   ResultSet res = consulta.executeQuery();
 	   while(res.next()){
 		   ProveedorVO proveedor= new ProveedorVO();
@@ -143,14 +144,15 @@ public class ProveedorDAO {
 		    proveedor.setNombreprov(res.getString("nombreprov"));
 		    proveedor.setDirprov(res.getString("dirprov"));
 		    proveedor.setTelfprov(res.getString("telfprov"));
-		    proveedor.setDiadedespacho(Date.valueOf(res.getString("diadedespacho")));
+		    proveedor.setDiadedespacho(res.getString("diadedespacho"));
+		    miProveedor.add(proveedor);
 	          }
 	          res.close();
 	          consulta.close();
 	          conex.desconectar();
 	    
 	  } catch (Exception e) {
-	   JOptionPane.showMessageDialog(null, "No se pudo consultar la lista de empleados\n"+e);
+	   JOptionPane.showMessageDialog(null, "No se pudo consultar la lista de proveedores\n"+e);
 	  }
 	  return miProveedor;
 	 }

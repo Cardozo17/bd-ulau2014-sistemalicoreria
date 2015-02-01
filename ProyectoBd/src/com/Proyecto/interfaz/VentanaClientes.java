@@ -10,16 +10,20 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import com.Proyecto.modelodao.ClienteDAO;
 import com.Proyecto.modelovo.ClienteVO;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 public class VentanaClientes extends JFrame implements ActionListener {
 
@@ -115,14 +119,32 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta2, config);
 
-		final JTextField txtCedula = new JTextField("");
+		/*final JTextField txtCedula = new JTextField("");
 		config.gridx = 2;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtCedula, config);
+		getContentPane().add(txtCedula, config);*/
+		
+		final JFormattedTextField txtCedula = new JFormattedTextField("");
+		config.gridx = 2;
+		config.gridy = 8;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+        txtCedula.setColumns(20);
+        try {
+            MaskFormatter formatter = new MaskFormatter("U-########");
+            //formatter.setValidCharacters("VvEeJjNn");
+            formatter.setPlaceholderCharacter('_');
+            formatter.install(txtCedula);
+        } catch (ParseException | java.text.ParseException ex) {
+           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getContentPane().add(txtCedula, config);
 
 		JLabel etiqueta3 = new JLabel("Nombre");
 		config.gridx = 3;
@@ -170,14 +192,32 @@ public class VentanaClientes extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta5, config);
 
-		final JTextField txtTelefono = new JTextField("");
+	/*	final JTextField txtTelefono = new JTextField("");
 		config.gridx = 3;
 		config.gridy = 10;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtTelefono, config);
+		getContentPane().add(txtTelefono, config);*/
+		
+		final JFormattedTextField txtTelefono = new JFormattedTextField("");
+		config.gridx = 3;
+		config.gridy = 10;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+        txtTelefono.setColumns(20);
+        try {
+            MaskFormatter formatter = new MaskFormatter("0###-#######");
+            //formatter.setValidCharacters("VvEeJjNn");
+            formatter.setPlaceholderCharacter('_');
+            formatter.install(txtTelefono);
+        } catch (ParseException | java.text.ParseException ex) {
+           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getContentPane().add(txtTelefono, config);
 
 		JLabel etiqueta6 = new JLabel("Direccion");
 		config.gridx = 2;
@@ -345,24 +385,50 @@ public class VentanaClientes extends JFrame implements ActionListener {
 
 	}
 
-	// acciones al presionar los botones
+	//acciones al presionar los botones
 	private void botonAgregarActionPerformed(ActionEvent evt, ClienteVO cliente) {
-		ClienteDAO clienteBD = new ClienteDAO();
-		clienteBD.registrarCliente(cliente);
+	
+		if(cliente.getCid().contentEquals(""))
+		{	
+			JOptionPane.showMessageDialog(null,"No hay datos a registrar (CI Obligatoria) ");
+		}
+		else{
+			ClienteDAO clienteBD = new ClienteDAO();
+			clienteBD.registrarCliente(cliente);
+			
+		}
 		
 
 	}
 
 	private void botonEliminarActionPerformed(ActionEvent evt, ClienteVO cliente){
+		
+		if(cliente.getCid().contentEquals(""))
+		{	
+			JOptionPane.showMessageDialog(null,"No hay datos para eliminar (CI Obligatoria");
+		}
+		else{
+			
 		ClienteDAO clienteBD = new ClienteDAO();
 		clienteBD.eliminarCliente(cliente.getCid());
+		}
 	}
 	
 	private void botonActualizarActionPerformed(ActionEvent evt,
 			ClienteVO cliente) {
 		// TODO Auto-generated method stub
-		ClienteDAO clienteBD = new ClienteDAO();
-		clienteBD.actualizarCliente(cliente);
+
+		if(cliente.getCid().contentEquals(""))
+		{	
+			JOptionPane.showMessageDialog(null,"No hay datos para actualizar (CI Obligatoria)");
+		}
+		else{
+			
+			ClienteDAO clienteBD = new ClienteDAO();
+			clienteBD.actualizarCliente(cliente);
+		}
+		
+
 	}
 
 

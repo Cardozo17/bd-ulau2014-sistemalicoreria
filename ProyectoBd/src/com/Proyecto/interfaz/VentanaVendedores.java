@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -35,15 +36,16 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 @SuppressWarnings("serial")
 public class VentanaVendedores extends JFrame implements ActionListener {
 
+	@SuppressWarnings("unused")
 	public VentanaVendedores() {
 
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Gestor de licoreria");
+		setTitle("Gestor de Licoreria");
 		Toolkit tk= Toolkit.getDefaultToolkit();
-
-		setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
+		setSize(800,600);
+		//setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
 		setVisible(true);
 		setResizable(true);
 
@@ -267,7 +269,7 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-        txtCedula.setColumns(20);
+        txtTelefono.setColumns(20);
         try {
             MaskFormatter formatter = new MaskFormatter("0###-#######");
             //formatter.setValidCharacters("VvEeJjNn");
@@ -482,21 +484,51 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 
 	// acciones al presionar los botones
 	private void botonAgregarActionPerformed(ActionEvent evt, EmpleadoVO empleado) {
-		EmpleadoDAO empleadoBD = new EmpleadoDAO();
-		empleadoBD.registrarEmpleado(empleado);
+		
+		if(empleado.getCid().contentEquals("")||empleado.getCid().contentEquals("_-________"))
+		{	
+			JOptionPane.showMessageDialog(null,"No hay datos para registrar (Cedula Obligatoria)");
+		}
+		else{
+			
+			EmpleadoDAO empleadoBD = new EmpleadoDAO();
+			empleadoBD.registrarEmpleado(empleado);
+		}
+
+	
 
 	}
 
 	private void botonEliminarActionPerformed(ActionEvent evt,EmpleadoVO empleado) {
-		EmpleadoDAO empleadoBD = new EmpleadoDAO();
-		empleadoBD.eliminarEmpleado(empleado.getCid());
-
+		
+		if(empleado.getCid().contentEquals("")||empleado.getCid().contentEquals("_-________"))
+		{	
+			JOptionPane.showMessageDialog(null,"No hay datos para eliminar (Cedula Obligatoria)");
+		}
+		else{
+			
+			EmpleadoDAO empleadoBD = new EmpleadoDAO();
+			empleadoBD.eliminarEmpleado(empleado.getCid());
+		}
+		
+		
 
 	}
 	
 	private void botonActualizarActionPerformed(ActionEvent evt, EmpleadoVO empleado) {
-		EmpleadoDAO empleadoBD = new EmpleadoDAO();
-		empleadoBD.actualizarEmpleado(empleado);
+		
+		if(empleado.getCid().contentEquals("")||empleado.getCid().contentEquals("_-________"))
+		{	
+			JOptionPane.showMessageDialog(null,"No hay datos para actualizar (Cedula Obligatoria)");
+		}
+		else{
+			
+			EmpleadoDAO empleadoBD = new EmpleadoDAO();
+			empleadoBD.actualizarEmpleado(empleado);
+		}
+		
+		
+		
 
 
 	}

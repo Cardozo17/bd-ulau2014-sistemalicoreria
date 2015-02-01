@@ -23,6 +23,7 @@ public class ProductoVO {
 		this.cantidadexist = cantidadexist;
 		this.preciounit = preciounit;
 	}
+	
 
 
 	public String getIdproduc() {

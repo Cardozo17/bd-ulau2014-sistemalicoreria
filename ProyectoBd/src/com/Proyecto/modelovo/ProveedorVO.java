@@ -1,6 +1,5 @@
 package com.Proyecto.modelovo;
 
-import java.sql.Date;
 
 public class ProveedorVO {
 	
@@ -10,7 +9,7 @@ public class ProveedorVO {
 	private String dirprov;
 	private String telfprov;
 	
-	private Date diadedespacho;
+	private String diadedespacho;
 	
 	public String getCodproov() {
 		return codproov;
@@ -44,11 +43,11 @@ public class ProveedorVO {
 		this.telfprov = telfprov;
 	}
 	
-	public Date getDiadedespacho() {
+	public String getDiadedespacho() {
 		return diadedespacho;
 	}
-	public void setDiadedespacho(Date diadedespacho) {
-		this.diadedespacho = diadedespacho;
+	public void setDiadedespacho(String date) {
+		this.diadedespacho = date;
 	} 
 	
 

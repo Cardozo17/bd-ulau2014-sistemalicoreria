@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class VentanaPrincipal extends JFrame implements ActionListener {
 
+	@SuppressWarnings("unused")
 	public VentanaPrincipal() {
 
 		initGUI();
@@ -23,8 +24,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Gestor de Licoreria");
 		Toolkit tk= Toolkit.getDefaultToolkit();
-		//setSize(1280, 750);
-		setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
+		setSize(1200, 600);
+		//setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
 		setVisible(true);
 		setResizable(true);
 		repaint();
@@ -192,6 +193,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		this.dispose();
 	}
 
+	@SuppressWarnings("unused")
 	public void botonProeveedoresActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
 		VentanaProveedores ventanaProveedores = new VentanaProveedores();

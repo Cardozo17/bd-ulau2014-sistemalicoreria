@@ -46,6 +46,7 @@ public class DBConnection {
 	 
 	   public void desconectar(){
 	      connection = null;
+	      System.out.println("Se ha desconectado la bd");
 	   }
 	   
 	}

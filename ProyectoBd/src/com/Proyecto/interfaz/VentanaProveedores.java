@@ -7,38 +7,40 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
-import com.Proyecto.modelodao.EmpleadoDAO;
 import com.Proyecto.modelodao.ProveedorDAO;
-import com.Proyecto.modelovo.EmpleadoVO;
 import com.Proyecto.modelovo.ProveedorVO;
-import com.Proyecto.modelovo.ProveedorVO;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 @SuppressWarnings("serial")
 public class VentanaProveedores extends JFrame implements ActionListener {
 
+	@SuppressWarnings("unused")
 	public VentanaProveedores() {
 
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Gestor de licoreria");
-		Toolkit tk= Toolkit.getDefaultToolkit();
+		setTitle("Gestor de Licoreria");
+		Toolkit tk = Toolkit.getDefaultToolkit();
 
-		//setSize(800, 600);
-		setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
+		setSize(800, 600);
+		// setSize((int)(tk.getScreenSize().getWidth()),
+		// (int)(tk.getScreenSize().getHeight()));
 		setVisible(true);
 		setResizable(true);
 
@@ -68,7 +70,7 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		/********************** Creando La tabla **************************************/
 		JTable tabla = new JTable();
 		String[] columnas = { "Codigo","RIF", "Nombre", "Telefono",
-				"Dirección",  "Dia de Despacho" };
+				"Dirección",  "Dia de Despacho"};
 
 		final DefaultTableModel modelo = new DefaultTableModel();
 		JScrollPane desplazamiento = new JScrollPane(tabla);
@@ -91,8 +93,8 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		//Llenando la tabla
 				for (ProveedorVO proveedor : proveedores) {
 					modelo.addRow(new Object[] { proveedor.getCodproov(),
-							proveedor.getRifprov(), proveedor.getNombreprov(), proveedor.getDirprov(),
-							proveedor.getTelfprov(), proveedor.getDiadedespacho() });
+							proveedor.getRifprov(), proveedor.getNombreprov(), proveedor.getTelfprov(),
+							proveedor.getDirprov(),proveedor.getDiadedespacho() });
 				}
 		
 
@@ -137,14 +139,32 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta3, config);
 
-		final JTextField txtRIF = new JTextField("");
+		/*final JTextField txtRIF = new JTextField("");
 		config.gridx = 3;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		// config.weighty=0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtRIF, config);
+		getContentPane().add(txtRIF, config);*/
+		
+		final JFormattedTextField txtRIF = new JFormattedTextField("");
+		config.gridx = 3;
+		config.gridy = 8;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+        txtRIF.setColumns(20);
+        try {
+            MaskFormatter formatter = new MaskFormatter("U-########-#");
+            //formatter.setValidCharacters("VvEeJjNn");
+            formatter.setPlaceholderCharacter('_');
+            formatter.install(txtRIF);
+        } catch (ParseException | java.text.ParseException ex) {
+           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getContentPane().add(txtRIF, config);
 
 		JLabel etiqueta4 = new JLabel("Nombre");
 		config.gridx = 4;
@@ -192,7 +212,7 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta6, config);
 
-		final JTextField txtTelefono = new JTextField("");
+	/*	final JTextField txtTelefono = new JTextField("");
 		config.gridx = 2;
 		config.gridy = 10;
 		config.gridheight = 1;
@@ -200,7 +220,26 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(txtTelefono, config);
-
+*/
+		final JFormattedTextField txtTelefono = new JFormattedTextField("");
+		config.gridx = 2;
+		config.gridy = 10;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+        txtTelefono.setColumns(20);
+        try {
+            MaskFormatter formatter = new MaskFormatter("0###-#######");
+            //formatter.setValidCharacters("VvEeJjNn");
+            formatter.setPlaceholderCharacter('_');
+            formatter.install(txtTelefono);
+        } catch (ParseException | java.text.ParseException ex) {
+           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getContentPane().add(txtTelefono, config);
+		
+		
 		JLabel etiqueta8 = new JLabel("Dia de despacho");
 		config.gridx = 4;
 		config.gridy = 9;
@@ -210,14 +249,41 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta8, config);
 
-		final JTextField txtDia = new JTextField("");
+	/*	final JTextField txtDia = new JTextField("0000-00-00");
 		config.gridx = 4;
 		config.gridy = 10;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtDia, config);
+		getContentPane().add(txtDia, config);*/
+		
+		final JFormattedTextField txtDia = new JFormattedTextField("");
+		config.gridx = 4;
+		config.gridy = 10;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;	
+		txtDia.setColumns(20);
+		  try {
+	            MaskFormatter formatter = new MaskFormatter("##-##-####");
+	            //formatter.setValidCharacters("VvEeJjNn");
+	            formatter.setPlaceholderCharacter('_');
+	            formatter.install(txtDia);
+	        } catch (ParseException | java.text.ParseException ex) {
+	           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+	        }
+	        getContentPane().add(txtDia, config);
+	        
+	        JLabel etiquetafecha= new JLabel("(dd/MM/yyyy)");
+	        config.gridx = 5;
+			config.gridy = 10;
+			config.gridheight = 1;
+			config.gridwidth = 1;
+			config.weighty = 0;
+			config.fill = GridBagConstraints.HORIZONTAL;
+			getContentPane().add(etiquetafecha, config);
 
 		/*********************** Creando los botones *******************/
 
@@ -277,8 +343,7 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		/*********************** Manejando eventos *******************/
 
 		ActionListener al = new ActionListener() {
-			
-			
+				
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				
@@ -290,47 +355,63 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 				proveedor.setNombreprov(txtNombre.getText());
 				proveedor.setDirprov(txtDireccion.getText());
 				proveedor.setTelfprov(txtTelefono.getText());
-				proveedor.setDiadedespacho(Date.(txtDia.getText()));
+				proveedor.setDiadedespacho(txtDia.getText());
+			
 				
 				
 				Object obj = evt.getSource();
 				if (obj == botonAgregar){
 					botonAgregarActionPerformed(evt,proveedor);
 					
+					while (modelo.getRowCount() != 0) {
+						modelo.removeRow(0);
+					}
+
+					
 					ArrayList<ProveedorVO> proveedornew = consultas
 							.listaDeProveedores();
 					for (ProveedorVO proveedoraux : proveedornew) {
 						modelo.addRow(new Object[] { proveedoraux.getCodproov(),
 								proveedoraux.getRifprov(), proveedoraux.getNombreprov(), 
-								proveedoraux.getDirprov(), proveedoraux.getTelfprov(),
-								proveedoraux.getDiadedespacho(),
+								 proveedoraux.getTelfprov(), proveedoraux.getDirprov(),
+								proveedoraux.getDiadedespacho()
 										});		
 					}
 				}
 				else if (obj == botonEliminar){
 					botonEliminarActionPerformed(evt,proveedor);
 					
-					ArrayList<ProveedorVO> proveedornew = consultas
-							.listaDeProveedores();
-					for (ProveedorVO proveedoraux : proveedornew) {
-						modelo.addRow(new Object[] { proveedoraux.getCodproov(),
-								proveedoraux.getRifprov(), proveedoraux.getNombreprov(), 
-								proveedoraux.getDirprov(), proveedoraux.getTelfprov(),
-								proveedoraux.getDiadedespacho(),
-										});	
+					while (modelo.getRowCount() != 0) {
+						modelo.removeRow(0);
 					}
-				}
-				else if (obj==botonActualizar){
-					botonActualizarActionPerformed(evt, proveedor);
+
 					
 					ArrayList<ProveedorVO> proveedornew = consultas
 							.listaDeProveedores();
 					for (ProveedorVO proveedoraux : proveedornew) {
 						modelo.addRow(new Object[] { proveedoraux.getCodproov(),
 								proveedoraux.getRifprov(), proveedoraux.getNombreprov(), 
-								proveedoraux.getDirprov(), proveedoraux.getTelfprov(),
-								proveedoraux.getDiadedespacho(),
-										});	
+								 proveedoraux.getTelfprov(), proveedoraux.getDirprov(),
+								proveedoraux.getDiadedespacho()
+										});		
+					}
+				}
+				else if (obj==botonActualizar){
+					botonActualizarActionPerformed(evt, proveedor);
+					
+					while (modelo.getRowCount() != 0) {
+						modelo.removeRow(0);
+					}
+
+					
+					ArrayList<ProveedorVO> proveedornew = consultas
+							.listaDeProveedores();
+					for (ProveedorVO proveedoraux : proveedornew) {
+						modelo.addRow(new Object[] { proveedoraux.getCodproov(),
+								proveedoraux.getRifprov(), proveedoraux.getNombreprov(), 
+								 proveedoraux.getTelfprov(), proveedoraux.getDirprov(),
+								proveedoraux.getDiadedespacho()
+										});		
 					}
 				}	
 				else if (obj == botonVolver)
@@ -346,23 +427,44 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 
 	}
 
-	// acciones al precionar los botones
+	// acciones al presionar los botones
 	private void botonAgregarActionPerformed(ActionEvent evt, ProveedorVO pro) {
-		ProveedorDAO proveedorBD = new ProveedorDAO();
-		proveedorBD.registrarProveedor(pro); 
+		if (pro.getCodproov().contentEquals("")) {
+			JOptionPane.showMessageDialog(null,
+					"No hay datos para registrar (Codigo Obligatorio");
+		} else {
+
+			ProveedorDAO proveedorBD = new ProveedorDAO();
+			proveedorBD.registrarProveedor(pro);
+		}
 
 	}
 
 	private void botonEliminarActionPerformed(ActionEvent evt, ProveedorVO pro) {
-		ProveedorDAO proveedorBD = new ProveedorDAO();
-		proveedorBD.eliminarProveedor(pro.getCodproov());
-	}
-	
-	private void botonActualizarActionPerformed(ActionEvent evt, ProveedorVO pro) {
-		ProveedorDAO proveedorBD = new ProveedorDAO();
-		proveedorBD.actualizarProveedor(pro);
+
+		if (pro.getCodproov().contentEquals("")) {
+			JOptionPane.showMessageDialog(null,
+					"No hay datos para eliminar (Codigo Obligatorio");
+		} else {
+
+			ProveedorDAO proveedorBD = new ProveedorDAO();
+			proveedorBD.eliminarProveedor(pro.getCodproov());
+		}
+
 	}
 
+	private void botonActualizarActionPerformed(ActionEvent evt, ProveedorVO pro) {
+
+		if (pro.getCodproov().contentEquals("")) {
+			JOptionPane.showMessageDialog(null,
+					"No hay datos para actualizar (Codigo Obligatorio");
+		} else {
+
+			ProveedorDAO proveedorBD = new ProveedorDAO();
+			proveedorBD.actualizarProveedor(pro);
+		}
+
+	}
 
 	private void botonVolverActionPerformed(ActionEvent evt, ProveedorVO pro) {
 		// TODO Auto-generated method stub
