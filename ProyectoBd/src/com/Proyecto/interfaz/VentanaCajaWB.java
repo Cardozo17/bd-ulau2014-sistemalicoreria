@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JLabel;
+import javax.swing.JComboBox;
 
 public class VentanaCajaWB {
 
@@ -63,6 +64,18 @@ public class VentanaCajaWB {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane);
+		
+		JToolBar toolBar = new JToolBar();
+		toolBar.setBounds(305, 57, 87, 16);
+		frame.getContentPane().add(toolBar);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(265, 105, 136, 80);
+		frame.getContentPane().add(panel_1);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(315, 26, 28, 20);
+		frame.getContentPane().add(comboBox);
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {

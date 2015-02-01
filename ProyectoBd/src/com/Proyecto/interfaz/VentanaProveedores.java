@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +19,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+
+import com.Proyecto.modelodao.EmpleadoDAO;
+import com.Proyecto.modelodao.ProveedorDAO;
+import com.Proyecto.modelovo.EmpleadoVO;
+import com.Proyecto.modelovo.ProveedorVO;
+import com.Proyecto.modelovo.ProveedorVO;
 
 @SuppressWarnings("serial")
 public class VentanaProveedores extends JFrame implements ActionListener {
@@ -53,18 +61,18 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		config.anchor = GridBagConstraints.NORTHWEST;
 		getContentPane().add(etiqueta1, config);
+		
+		final ProveedorDAO consultas = new ProveedorDAO();// bd
+		ArrayList<ProveedorVO> proveedores = consultas.listaDeProveedores();
 
 		/********************** Creando La tabla **************************************/
 		JTable tabla = new JTable();
-		String[] columnas = { "RIF", "Nombre", "Apellido", "Telefono",
-				"Dirección", "Empresa", "Dia de Despacho" };
+		String[] columnas = { "Codigo","RIF", "Nombre", "Telefono",
+				"Dirección",  "Dia de Despacho" };
 
-		DefaultTableModel modelo = new DefaultTableModel();
+		final DefaultTableModel modelo = new DefaultTableModel();
 		JScrollPane desplazamiento = new JScrollPane(tabla);
 
-		// int id, consola, obtenido,cantidad,catidadMin;
-		// float precio,presentacion;
-		// String nombre;
 
 		// Modelo de la tabla
 		modelo.setColumnIdentifiers(columnas);
@@ -79,6 +87,14 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tabla.setFillsViewportHeight(true);
 		tabla.setModel(modelo);
+		
+		//Llenando la tabla
+				for (ProveedorVO proveedor : proveedores) {
+					modelo.addRow(new Object[] { proveedor.getCodproov(),
+							proveedor.getRifprov(), proveedor.getNombreprov(), proveedor.getDirprov(),
+							proveedor.getTelfprov(), proveedor.getDiadedespacho() });
+				}
+		
 
 		// Agregando elementos a la ventana
 
@@ -94,7 +110,7 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 
 		/*********************** Creando El Formulario *******************/
 
-		JLabel etiqueta2 = new JLabel("RIF");
+		JLabel etiqueta2 = new JLabel("Codigo");
 		config.gridx = 2;
 		config.gridy = 7;
 		config.gridheight = 1;
@@ -103,16 +119,16 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta2, config);
 
-		JTextField txtCedula = new JTextField("");
+		final JTextField txtCodigo = new JTextField("");
 		config.gridx = 2;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtCedula, config);
+		getContentPane().add(txtCodigo, config);
 
-		JLabel etiqueta3 = new JLabel("Nombre");
+		JLabel etiqueta3 = new JLabel("RIF");
 		config.gridx = 3;
 		config.gridy = 7;
 		config.gridheight = 1;
@@ -121,16 +137,16 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta3, config);
 
-		JTextField txtNombre = new JTextField("");
+		final JTextField txtRIF = new JTextField("");
 		config.gridx = 3;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		// config.weighty=0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtNombre, config);
+		getContentPane().add(txtRIF, config);
 
-		JLabel etiqueta4 = new JLabel("Apellido");
+		JLabel etiqueta4 = new JLabel("Nombre");
 		config.gridx = 4;
 		config.gridy = 7;
 		config.gridheight = 1;
@@ -139,17 +155,17 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta4, config);
 
-		JTextField txtPrecio = new JTextField("");
+		final JTextField txtNombre = new JTextField("");
 		config.gridx = 4;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtPrecio, config);
+		getContentPane().add(txtNombre, config);
 
-		// Combo Tipo de licor
-		JLabel etiqueta5 = new JLabel("Telefono");
+		
+		JLabel etiqueta5 = new JLabel("Dirección");
 		config.gridx = 3;
 		config.gridy = 9;
 		config.gridheight = 1;
@@ -158,16 +174,16 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta5, config);
 
-		JTextField txtTelefono = new JTextField("");
+		final JTextField txtDireccion = new JTextField("");
 		config.gridx = 3;
 		config.gridy = 10;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtTelefono, config);
+		getContentPane().add(txtDireccion, config);
 
-		JLabel etiqueta6 = new JLabel("Direccion");
+		JLabel etiqueta6 = new JLabel("Telefono");
 		config.gridx = 2;
 		config.gridy = 9;
 		config.gridheight = 1;
@@ -176,32 +192,14 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta6, config);
 
-		JTextField txtPresentacion = new JTextField("");
+		final JTextField txtTelefono = new JTextField("");
 		config.gridx = 2;
 		config.gridy = 10;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtPresentacion, config);
-
-//		JLabel etiqueta7 = new JLabel("Empresa");
-//		config.gridx = 5;
-//		config.gridy = 7;
-//		config.gridheight = 1;
-//		config.gridwidth = 1;
-//		config.weightx = 0;
-//		config.fill = GridBagConstraints.BOTH;
-//		getContentPane().add(etiqueta7, config);
-//
-//		JTextField txtEmpresa = new JTextField("");
-//		config.gridx = 5;
-//		config.gridy = 8;
-//		config.gridheight = 1;
-//		config.gridwidth = 1;
-//		config.weighty = 0;
-//		config.fill = GridBagConstraints.HORIZONTAL;
-//		getContentPane().add(txtEmpresa, config);
+		getContentPane().add(txtTelefono, config);
 
 		JLabel etiqueta8 = new JLabel("Dia de despacho");
 		config.gridx = 4;
@@ -212,7 +210,7 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta8, config);
 
-		JTextField txtDia = new JTextField("");
+		final JTextField txtDia = new JTextField("");
 		config.gridx = 4;
 		config.gridy = 10;
 		config.gridheight = 1;
@@ -233,7 +231,7 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonAgregar, config);
 
-		JButton botonActualizar = new JButton("Actualizar");
+		final JButton botonActualizar = new JButton("Actualizar");
 		config.gridx = 3;
 		config.gridy = 11;
 		config.gridheight = 1;
@@ -279,33 +277,94 @@ public class VentanaProveedores extends JFrame implements ActionListener {
 		/*********************** Manejando eventos *******************/
 
 		ActionListener al = new ActionListener() {
+			
+			
 			@Override
 			public void actionPerformed(ActionEvent evt) {
+				
+				//Obteniendo los datos de la Ventana
+				ProveedorVO proveedor= new ProveedorVO();
+				
+				proveedor.setCodproov(txtCodigo.getText());
+				proveedor.setRifprov(txtRIF.getText());
+				proveedor.setNombreprov(txtNombre.getText());
+				proveedor.setDirprov(txtDireccion.getText());
+				proveedor.setTelfprov(txtTelefono.getText());
+				proveedor.setDiadedespacho(Date.(txtDia.getText()));
+				
+				
 				Object obj = evt.getSource();
-				if (obj == botonAgregar)
-					botonAgregarActionPerformed(evt);
-				else if (obj == botonEliminar)
-					botonEliminarActionPerformed(evt);
+				if (obj == botonAgregar){
+					botonAgregarActionPerformed(evt,proveedor);
+					
+					ArrayList<ProveedorVO> proveedornew = consultas
+							.listaDeProveedores();
+					for (ProveedorVO proveedoraux : proveedornew) {
+						modelo.addRow(new Object[] { proveedoraux.getCodproov(),
+								proveedoraux.getRifprov(), proveedoraux.getNombreprov(), 
+								proveedoraux.getDirprov(), proveedoraux.getTelfprov(),
+								proveedoraux.getDiadedespacho(),
+										});		
+					}
+				}
+				else if (obj == botonEliminar){
+					botonEliminarActionPerformed(evt,proveedor);
+					
+					ArrayList<ProveedorVO> proveedornew = consultas
+							.listaDeProveedores();
+					for (ProveedorVO proveedoraux : proveedornew) {
+						modelo.addRow(new Object[] { proveedoraux.getCodproov(),
+								proveedoraux.getRifprov(), proveedoraux.getNombreprov(), 
+								proveedoraux.getDirprov(), proveedoraux.getTelfprov(),
+								proveedoraux.getDiadedespacho(),
+										});	
+					}
+				}
+				else if (obj==botonActualizar){
+					botonActualizarActionPerformed(evt, proveedor);
+					
+					ArrayList<ProveedorVO> proveedornew = consultas
+							.listaDeProveedores();
+					for (ProveedorVO proveedoraux : proveedornew) {
+						modelo.addRow(new Object[] { proveedoraux.getCodproov(),
+								proveedoraux.getRifprov(), proveedoraux.getNombreprov(), 
+								proveedoraux.getDirprov(), proveedoraux.getTelfprov(),
+								proveedoraux.getDiadedespacho(),
+										});	
+					}
+				}	
 				else if (obj == botonVolver)
-					botonVolverActionPerformed(evt);
+					botonVolverActionPerformed(evt,proveedor);
 			}
 		};
+		
 		botonAgregar.addActionListener(al);
 		botonEliminar.addActionListener(al);
+		botonActualizar.addActionListener(al);
 		botonVolver.addActionListener(al);
+				
 
 	}
 
 	// acciones al precionar los botones
-	private void botonAgregarActionPerformed(ActionEvent evt) {
+	private void botonAgregarActionPerformed(ActionEvent evt, ProveedorVO pro) {
+		ProveedorDAO proveedorBD = new ProveedorDAO();
+		proveedorBD.registrarProveedor(pro); 
 
 	}
 
-	private void botonEliminarActionPerformed(ActionEvent evt) {
-
+	private void botonEliminarActionPerformed(ActionEvent evt, ProveedorVO pro) {
+		ProveedorDAO proveedorBD = new ProveedorDAO();
+		proveedorBD.eliminarProveedor(pro.getCodproov());
+	}
+	
+	private void botonActualizarActionPerformed(ActionEvent evt, ProveedorVO pro) {
+		ProveedorDAO proveedorBD = new ProveedorDAO();
+		proveedorBD.actualizarProveedor(pro);
 	}
 
-	private void botonVolverActionPerformed(ActionEvent evt) {
+
+	private void botonVolverActionPerformed(ActionEvent evt, ProveedorVO pro) {
 		// TODO Auto-generated method stub
 		VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
 		ventanaPrincipal.setVisible(true);

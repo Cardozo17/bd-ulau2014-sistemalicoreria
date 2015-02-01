@@ -22,8 +22,8 @@ public class EmpleadoDAO {
 	  DBConnection conex= new DBConnection();
 	  try {
 	   Statement estatuto = (Statement) conex.getConnection().createStatement();
-	   estatuto.executeUpdate("INSERT INTO empleado VALUES ('"+empleado.getCodemp()+"', '"
-	     +empleado.getCargo()+"', '"+empleado.getAnosserv()+"', '"+empleado.getSalario()+"', '"
+	   estatuto.executeUpdate("INSERT INTO empleado (cargo, anosserv, salario, cid, nombre, apellido, telf, direccion) VALUES ('"
+	     +empleado.getCargo()+"', "+empleado.getAnosserv()+", "+empleado.getSalario()+", '"
 	     +empleado.getCid()+"', '"+empleado.getNombre()+"', '"+empleado.getApellido()+"', '"+empleado.getTelef()+"', '"+empleado.getDireccion()+"');");
 	   JOptionPane.showMessageDialog(null, "Se ha registrado exitosamente","Información",JOptionPane.INFORMATION_MESSAGE);
 	   estatuto.close();
@@ -46,16 +46,16 @@ public class EmpleadoDAO {
 		  DBConnection conex= new DBConnection();
 		    
 		  try {
-		   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("UPDATE empleado SET codemp= ?,cargo= ?, anosserv= ?, salario= ?, cid= ?,  nombre= ?, apellido= ?, telf= ?, direccion= ?  " + " WHERE cid = ? ");
-		   consulta.setString(1,empleado.getCodemp());
-		   consulta.setString(2, empleado.getCargo());
-		   consulta.setString(3, Integer.toString(empleado.getAnosserv()));
-		   consulta.setString(4,Float.toString(empleado.getSalario()));
-		   consulta.setString(5, empleado.getCid());
-		   consulta.setString(6,empleado.getNombre());
-		   consulta.setString(7,empleado.getApellido());
-		   consulta.setString(8,empleado.getTelef());
-		   consulta.setString(9,empleado.getDireccion());
+		   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("UPDATE empleado SET cargo= ?, anosserv= ?, salario= ?, cid= ?,  nombre= ?, apellido= ?, telf= ?, direccion= ?  " + " WHERE cid = ? ");
+		   consulta.setString(1, empleado.getCargo());
+		   consulta.setString(2, Integer.toString(empleado.getAnosserv()));
+		   consulta.setString(3,Float.toString(empleado.getSalario()));
+		   consulta.setString(4, empleado.getCid());
+		   consulta.setString(5,empleado.getNombre());
+		   consulta.setString(6,empleado.getApellido());
+		   consulta.setString(7,empleado.getTelef());
+		   consulta.setString(8,empleado.getDireccion());
+		   consulta.setString(9,empleado.getCid());
 		   consulta.execute();
 		    
 		   JOptionPane.showMessageDialog(null, "Se ha  actualizado el  empleado con exito\n"); 

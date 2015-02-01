@@ -27,11 +27,11 @@
 
 
         create table if not exists empleado(
-             codemp char(10) PRIMARY KEY,
+             codemp int PRIMARY KEY AUTO_INCREMENT,
              cargo varchar(20) NOT NULL,
              anosserv int default 0,
              salario float not null,
-             cid char(10) not null references persona(cid)
+             cid char(10) not null unique references persona(cid) 
                  on update cascade,
              nombre varchar(32) not null references persona(nombre)
                  on update cascade,

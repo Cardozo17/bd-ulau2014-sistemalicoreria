@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -22,12 +23,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.MaskFormatter;
 import javax.swing.text.PlainDocument;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.Proyecto.modelodao.EmpleadoDAO;
 import com.Proyecto.modelovo.EmpleadoVO;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 @SuppressWarnings("serial")
 public class VentanaVendedores extends JFrame implements ActionListener {
@@ -111,7 +114,7 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 
 		/*********************** Creando El Formulario *******************/
 		
-		JLabel etiqueta1 = new JLabel("Codigo");
+	/*	JLabel etiqueta1 = new JLabel("Codigo");
 		config.gridx = 1;
 		config.gridy = 7;
 		config.gridheight = 1;
@@ -120,14 +123,14 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta1, config);
 		
-		final JTextField txtCodigo = new JTextField("");
+		final JTextField txtCodigo = new JTextField(null);
 		config.gridx = 1;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtCodigo, config);
+		getContentPane().add(txtCodigo, config);*/
 
 		JLabel etiqueta2 = new JLabel("Cedula");
 		config.gridx = 2;
@@ -138,14 +141,33 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta2, config);
 
-		final JTextField txtCedula = new JTextField("");
+//		final JTextField txtCedula = new JTextField("");
+//		config.gridx = 2;
+//		config.gridy = 8;
+//		config.gridheight = 1;
+//		config.gridwidth = 1;
+//		config.weighty = 0;
+//		config.fill = GridBagConstraints.HORIZONTAL;
+//		getContentPane().add(txtCedula, config);
+		
+		final JFormattedTextField txtCedula = new JFormattedTextField("");
 		config.gridx = 2;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtCedula, config);
+        txtCedula.setColumns(20);
+        try {
+            MaskFormatter formatter = new MaskFormatter("U-########");
+            //formatter.setValidCharacters("VvEeJjNn");
+            formatter.setPlaceholderCharacter('_');
+            formatter.install(txtCedula);
+        } catch (ParseException | java.text.ParseException ex) {
+           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getContentPane().add(txtCedula, config);
+		
 
 		JLabel etiqueta3 = new JLabel("Nombre");
 		config.gridx = 3;
@@ -217,7 +239,7 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		txtAnosServ.setDocument(new FixedSizeIntNumberDocument(txtAnosServ,5));
+		txtAnosServ.setDocument(new FixedSizeIntNumberDocument(txtAnosServ,2));
 		getContentPane().add(txtAnosServ, config);
 
 		JLabel etiqueta5 = new JLabel("Telefono");
@@ -229,14 +251,32 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta5, config);
 
-		final JTextField txtTelefono = new JTextField("");
+	/*	final JTextField txtTelefono = new JTextField("");
 		config.gridx = 3;
 		config.gridy = 10;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtTelefono, config);
+		getContentPane().add(txtTelefono, config);*/
+		
+		final JFormattedTextField txtTelefono = new JFormattedTextField("");
+		config.gridx = 3;
+		config.gridy = 10;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+        txtCedula.setColumns(20);
+        try {
+            MaskFormatter formatter = new MaskFormatter("0###-#######");
+            //formatter.setValidCharacters("VvEeJjNn");
+            formatter.setPlaceholderCharacter('_');
+            formatter.install(txtTelefono);
+        } catch (ParseException | java.text.ParseException ex) {
+           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getContentPane().add(txtTelefono, config);
 
 		JLabel etiqueta6 = new JLabel("Direccion");
 		config.gridx = 4;
@@ -265,37 +305,32 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiquetasalario, config);
 		
-		final JTextField txtSalario = new JTextField("");
+		/*final JFormattedTextField txtSalario = new JFormattedTextField("");
 		config.gridx = 5;
 		config.gridy = 10;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtSalario, config);
-		
+		getContentPane().add(txtSalario, config);*/
 		
 		 
-		/*try {
-			MaskFormatter mascara = new MaskFormatter("######.##");
-			JFormattedTextField txtSalario = new JFormattedTextField(mascara);
-			txtSalario.setValue(new Float("000000.00"));
-			config.gridx = 5;
-			config.gridy = 10;
-			config.gridheight = 1;
-			config.gridwidth = 1;
-			config.weighty = 0;
-			config.fill = GridBagConstraints.HORIZONTAL;
-			getContentPane().add(txtSalario, config);
-			
-
-			
-			
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
+		final JFormattedTextField txtSalario = new JFormattedTextField("");
+		config.gridx = 5;
+		config.gridy = 10;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+        txtSalario.setColumns(20);
+        try {
+            MaskFormatter formatter = new MaskFormatter("*************");
+            formatter.setValidCharacters("1234567890.");
+            formatter.install(txtSalario);
+        } catch (ParseException | java.text.ParseException ex) {
+           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getContentPane().add(txtSalario, config);
 		
 
 		/*********************** Creando los botones *******************/
@@ -362,7 +397,7 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 				//obteniendo los datos de la ventana
 				EmpleadoVO empleado= new EmpleadoVO();
 				
-				empleado.setCodemp(txtCodigo.getText());
+				//empleado.setCodemp(txtCodigo.getText());
 				empleado.setCargo(txtCargo.getText());
 				empleado.setAnosserv(NumberUtils.toInt(txtAnosServ.getText(),0));
 				empleado.setSalario(NumberUtils.toFloat(txtSalario.getText(),0));
@@ -415,6 +450,7 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 				}else if (obj== botonActualizar){
 					botonActualizarActionPerformed(evt, empleado);
 					
+					
 					while (modelo.getRowCount() != 0) {
 						modelo.removeRow(0);	
 
@@ -439,6 +475,7 @@ public class VentanaVendedores extends JFrame implements ActionListener {
 		
 		botonAgregar.addActionListener(al);
 		botonEliminar.addActionListener(al);
+		botonActualizar.addActionListener(al);
 		botonVolver.addActionListener(al);
 
 	}
