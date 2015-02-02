@@ -97,6 +97,32 @@ public class ProductoDAO {
 	  return miProducto;
 	 }
 	 
+	
+	public ProductoVO consultarUnProducto(String codigo) {
+		  DBConnection conex= new DBConnection();
+		  ProductoVO producto= new ProductoVO();
+		  try {
+		   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("SELECT * FROM producto where idproduc = ? ");
+		   consulta.setString(1, codigo);
+		   ResultSet res = consulta.executeQuery();
+		    
+		  if(res.next()){
+		   
+		    producto.setIdproduc(res.getString("idproduc"));
+		    producto.setNombreprod(res.getString("nombreprod"));
+		    producto.setCodprov(res.getString("codproov"));
+		    producto.setCantidadexist(Integer.valueOf(res.getString("cantidadexist")));
+		    producto.setPreciounit(Float.valueOf(res.getString("preciounit")));
+		          }
+		          res.close();
+		          consulta.close();
+		          conex.desconectar();
+		    
+		  } catch (Exception e) {
+		   JOptionPane.showMessageDialog(null, "No se pudo consultar el producto\n"+e);
+		  }
+		  return producto;
+		 }
 	/**
 	 * permite consultar la lista de productos
 	 * @return

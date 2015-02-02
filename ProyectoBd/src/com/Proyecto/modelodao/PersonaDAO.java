@@ -133,6 +133,31 @@ public class PersonaDAO {
 	  return miPersona;
 	 }
 	 
+	public PersonaVO consultarUnaPersona(String documento) {
+		  DBConnection conex= new DBConnection();
+		  PersonaVO persona= new PersonaVO();
+		  try {
+		   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("SELECT * FROM persona where cid = ? ");
+		   consulta.setString(1, documento);
+		   ResultSet res = consulta.executeQuery();
+		    
+		  if(res.next()){
+		    persona.setCid(res.getString("cid"));
+		    persona.setNombre(res.getString("nombre"));
+		    persona.setApellido(res.getString("apellido"));
+		    persona.setTelefono(res.getString("telf"));
+		    persona.setDireccion(res.getString("direccion"));
+		
+		          }
+		          res.close();
+		          consulta.close();
+		          conex.desconectar();
+		    
+		  } catch (Exception e) {
+		   JOptionPane.showMessageDialog(null, "no se pudo consultar la Persona\n"+e);
+		  }
+		  return persona;
+		 }
 	/**
 	 * permite consultar la lista de empleados
 	 * @return

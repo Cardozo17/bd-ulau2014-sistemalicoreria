@@ -7,16 +7,29 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.commons.lang3.math.NumberUtils;
+
+import com.Proyecto.modelodao.DatosEmpresaDAO;
+import com.Proyecto.modelodao.PersonaDAO;
+import com.Proyecto.modelodao.ProductoDAO;
+import com.Proyecto.modelovo.DatosEmpresaVO;
+import com.Proyecto.modelovo.PersonaVO;
+import com.Proyecto.modelovo.ProductoVO;
 
 public class VentanaCaja extends JFrame implements ActionListener {
 
@@ -25,17 +38,17 @@ public class VentanaCaja extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
 	public VentanaCaja() {
 
 		initGUI();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Gestor de Licoreria");
-		Toolkit tk= Toolkit.getDefaultToolkit();
+		setTitle("Gestor de licoreria");
+		Toolkit tk = Toolkit.getDefaultToolkit();
 
-		setSize(800, 600);
-		//setSize((int)(tk.getScreenSize().getWidth()), (int)(tk.getScreenSize().getHeight()));
+		// setSize(800, 600);
+		setSize((int) (tk.getScreenSize().getWidth()),
+				(int) (tk.getScreenSize().getHeight()));
 		setVisible(true);
 		setResizable(true);
 
@@ -46,12 +59,17 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		getContentPane().setLayout(new GridBagLayout());
 		getContentPane().setBackground(Color.WHITE);
 		GridBagConstraints config = new GridBagConstraints();
+		
+		List<ProductoVO> listaDeCompras = new ArrayList<ProductoVO>();
+		DatosEmpresaVO datosEmp;
+		DatosEmpresaDAO consultarDatosEmp = new DatosEmpresaDAO();
+		datosEmp = consultarDatosEmp.consultarUnaEmpresa();
 
 		JLabel etiqueta1 = new JLabel(" Caja Registradora");
-		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 34));
+		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
 		config.gridx = 1;
 		config.gridy = 1;
-		config.gridheight = 3;
+		config.gridheight = 2;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.weightx = 0;
@@ -59,9 +77,57 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.anchor = GridBagConstraints.NORTHWEST;
 		getContentPane().add(etiqueta1, config);
 
+		JLabel etiquetaEmpresa = new JLabel(datosEmp.getNombre());
+		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 1;
+		config.gridy = 3;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.weightx = 0;
+		config.fill = GridBagConstraints.BOTH;
+		config.anchor = GridBagConstraints.NORTHWEST;
+		getContentPane().add(etiquetaEmpresa, config);
+		
+		JLabel etiquetaDirEmp = new JLabel(datosEmp.getDiremp());
+		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 2;
+		config.gridy = 3;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.weightx = 0;
+		config.fill = GridBagConstraints.BOTH;
+		config.anchor = GridBagConstraints.NORTHWEST;
+		getContentPane().add(etiquetaDirEmp, config);
+		
+		JLabel etiquetaRif = new JLabel(datosEmp.getRif());
+		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 1;
+		config.gridy = 4;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.weightx = 0;
+		config.fill = GridBagConstraints.BOTH;
+		config.anchor = GridBagConstraints.NORTHWEST;
+		getContentPane().add(etiquetaRif, config);
+		
+		JLabel etiquetaTelf = new JLabel(datosEmp.getTelefono());
+		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 2;
+		config.gridy = 4;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.weightx = 0;
+		config.fill = GridBagConstraints.BOTH;
+		config.anchor = GridBagConstraints.NORTHWEST;
+		getContentPane().add(etiquetaTelf, config);
+
 		/********************** Creando La tabla **************************************/
 		JTable tabla = new JTable();
-		String[] columnas = { "Nombre", "Cantidad", "Precio" };
+		String[] columnas = { "Nombre", "Cantidad", "Precio Unitario","Precio" };
 
 		DefaultTableModel modelo = new DefaultTableModel();
 		JScrollPane desplazamiento = new JScrollPane(tabla);
@@ -94,7 +160,28 @@ public class VentanaCaja extends JFrame implements ActionListener {
 
 		/*********************** Creando El Formulario *******************/
 
+		JLabel etiqueta0 = new JLabel("Nombre Cliente");
+		etiqueta0.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 6;
+		config.gridy = 4;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.BOTH;
+		getContentPane().add(etiqueta0, config);
+
+		JLabel etiquetaNombrePersona = new JLabel("");
+		etiquetaNombrePersona.setFont(new java.awt.Font("Arial", Font.BOLD, 30));
+		config.gridx = 6;
+		config.gridy = 5;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.BOTH;
+		getContentPane().add(etiquetaNombrePersona, config);
+
 		JLabel etiqueta2 = new JLabel("Cedula Cliente");
+		etiqueta2.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
 		config.gridx = 7;
 		config.gridy = 4;
 		config.gridheight = 1;
@@ -113,7 +200,8 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		getContentPane().add(txtCedula, config);
 
 		JLabel etiqueta3 = new JLabel("Codigo ");
-		config.gridx = 6;
+		etiqueta3.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 7;
 		config.gridy = 7;
 		config.gridheight = 1;
 		config.gridwidth = 1;
@@ -121,17 +209,18 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta3, config);
 
-		JTextField txtNombre = new JTextField("");
-		config.gridx = 6;
+		JTextField txtCodigo = new JTextField("");
+		config.gridx = 7;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		// config.weighty=0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtNombre, config);
+		getContentPane().add(txtCodigo, config);
 
 		JLabel etiqueta4 = new JLabel("Nombre Producto");
-		config.gridx = 7;
+		etiqueta4.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 6;
 		config.gridy = 7;
 		config.gridheight = 1;
 		config.gridwidth = 1;
@@ -139,16 +228,18 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta4, config);
 
-		JTextField txtNombreProd = new JTextField("");
-		config.gridx = 7;
+		JLabel etiquetaNombreProducto = new JLabel("");
+		etiquetaNombreProducto.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 6;
 		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		// config.weighty=0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtNombreProd, config);
+		getContentPane().add(etiquetaNombreProducto, config);
 
 		JLabel etiqueta5 = new JLabel("Cantidad");
+		etiqueta5.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
 		config.gridx = 7;
 		config.gridy = 9;
 		config.gridheight = 1;
@@ -180,7 +271,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 
 		final JButton botonBuscarProd = new JButton("Buscar Producto");
 		config.gridx = 8;
-		config.gridy = 9;
+		config.gridy = 8;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
@@ -189,7 +280,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 
 		final JButton botonAgregarProd = new JButton("Agregar Producto");
 		config.gridx = 8;
-		config.gridy = 8;
+		config.gridy = 9;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
@@ -206,24 +297,54 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonEliminarProd, config);
 
-		final JButton botonImprimir = new JButton("Imprimir Factura");
-		config.gridx = 4;
-		config.gridy = 14;
+		final JButton botonProcesar = new JButton("Procesar Compra");
+		config.gridx = 3;
+		config.gridy = 16;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(botonImprimir, config);
+		getContentPane().add(botonProcesar, config);
 
 		// Boton para volver
 		final JButton botonVolver = new JButton("Volver");
-		config.gridx = 5;
-		config.gridy = 14;
+		config.gridx = 8;
+		config.gridy = 11;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(botonVolver, config);
+		
+		JLabel etiqueta6 = new JLabel("Bs");
+		etiqueta1.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 3;
+		config.gridy = 14;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		// config.weightx=0;
+		config.fill = GridBagConstraints.BOTH;
+		getContentPane().add(etiqueta6, config);
+		
+		JLabel etiqueta7 = new JLabel("Total");
+		etiqueta7.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+		config.gridx = 1;
+		config.gridy = 14;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		// config.weightx=0;
+		config.fill = GridBagConstraints.BOTH;
+		getContentPane().add(etiqueta7, config);
+		
+		JLabel etiquetaTotal = new JLabel("0.0");
+		etiquetaTotal.setFont(new java.awt.Font("Arial", Font.BOLD, 34));
+		config.gridx = 2;
+		config.gridy = 14;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		// config.weightx=0;
+		config.fill = GridBagConstraints.BOTH;
+		getContentPane().add(etiquetaTotal, config);
 
 		/*********************** logo de la aplicacion *******************/
 
@@ -244,30 +365,148 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		ActionListener al = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
+
+				String codigoProd = txtCodigo.getText();
+				String codigoPersona=txtCedula.getText();
+			
+
 				Object obj = evt.getSource();
-				if (obj == botonBuscarCliente)
-					botonBuscarClienteActionPerformed(evt);
-				else if (obj == botonEliminarProd)
-					botonEliminarProdActionPerformed(evt);
+				if (obj == botonAgregarProd) {
+					
+					ProductoVO prodConsultado;
+					prodConsultado = botonBuscarProdActionPerformed(evt,codigoProd);
+					Float totalAux;
+					if(txtCantidad.getText().isEmpty()){
+						JOptionPane.showMessageDialog(null, "Indique una cantidad de producto\n"); 
+					}else{
+						if(prodConsultado.getCantidadexist() >= Integer.parseInt(txtCantidad.getText()) && !estaEnLista(listaDeCompras, prodConsultado)){
+					
+								while (modelo.getRowCount() != 0) { 
+									modelo.removeRow(0);
+								}
+					  
+								prodConsultado.setCantidadexist(Integer.parseInt(txtCantidad.getText()));
+								listaDeCompras.add(prodConsultado);
+							//ReDibujando la tabla
+								for (ProductoVO producto :listaDeCompras) { modelo.addRow(new Object[] { 
+											producto.getNombreprod(),producto.getCantidadexist(),
+											producto.getPreciounit(),(producto.getPreciounit()*producto.getCantidadexist())});
+											totalAux=Float.parseFloat(etiquetaTotal.getText())+(producto.getPreciounit()*producto.getCantidadexist());
+											etiquetaTotal.setText(totalAux.toString());
+								}
+								txtCantidad.setText("");
+								txtCodigo.setText("");
+						}else{
+							if(prodConsultado.getCantidadexist() < Integer.parseInt(txtCantidad.getText())){
+								JOptionPane.showMessageDialog(null, "No hay suficiente producto\n"); 			
+							}
+						}
+					
+					}
+				} else if (obj == botonEliminarProd) {
+					Float totalAux;
+						for (ProductoVO productoNew :listaDeCompras) { 
+							if(productoNew.getIdproduc().contentEquals(codigoProd) ){
+								totalAux=Float.parseFloat(etiquetaTotal.getText()) - (productoNew.getPreciounit()*productoNew.getCantidadexist());
+								etiquetaTotal.setText(totalAux.toString());
+								listaDeCompras.remove(productoNew);
+							}
+						}
+				//ReDibujando la tabla
+					
+						while (modelo.getRowCount() != 0) { 
+							modelo.removeRow(0);
+						}
+				  				
+						for (ProductoVO producto :listaDeCompras) { modelo.addRow(new Object[] { 
+									producto.getNombreprod(),producto.getCantidadexist(),
+									producto.getPreciounit(),(producto.getPreciounit()*producto.getCantidadexist())}); 
+						}
+				
+					
+
+				} else if (obj == botonBuscarProd) {
+					
+					ProductoVO prodConsultado;
+					prodConsultado = botonBuscarProdActionPerformed(evt,codigoProd);
+					etiquetaNombreProducto.setText(prodConsultado.getNombreprod());
+				
+				}else if(obj == botonBuscarCliente){
+				
+					if(codigoPersona.isEmpty() || !existePersona(codigoPersona) ){
+						JOptionPane.showMessageDialog(null, "Debe ingresar un cliente valido\n");
+					}
+					else{
+							PersonaVO personaConsultada;
+							personaConsultada =botonBuscarClienteActionPerformed(evt, codigoPersona);
+							etiquetaNombrePersona.setText(personaConsultada.getNombre()); 
+					}
+													
+				}else if(obj == botonProcesar){
+					if(existePersona(codigoPersona)){
+							ProductoDAO prodActualizador = new ProductoDAO();
+							ProductoVO prodAux;
+						
+							for (ProductoVO productoNew :listaDeCompras) { 
+								prodAux = prodActualizador.consultarUnProducto(productoNew.getIdproduc());
+								prodAux.setCantidadexist(prodAux.getCantidadexist() - productoNew.getCantidadexist());
+								prodActualizador.actualizarProducto(prodAux);
+							}
+						listaDeCompras.clear();
+						//limpiado Interfaz
+							while (modelo.getRowCount() != 0) { 
+								modelo.removeRow(0);
+							}
+							
+							txtCantidad.setText("");
+							txtCedula.setText("");
+							txtCodigo.setText("");
+							etiquetaTotal.setText("0.0");
+							
+						//Mensaje De operacion Finalizada
+							JOptionPane.showMessageDialog(null, "Se ha  procesado la transaccion con exito\n"); 
+					}else{
+						JOptionPane.showMessageDialog(null, "Se debe introducir un cliente\n"); 
+					}
+				}
+
 				else if (obj == botonVolver)
 					botonVolverActionPerformed(evt);
+
 			}
+
 		};
-		botonBuscarCliente.addActionListener(al);
+
+		// agregando los listeners
+		botonAgregarProd.addActionListener(al);
 		botonEliminarProd.addActionListener(al);
+		botonBuscarProd.addActionListener(al);
+		botonBuscarCliente.addActionListener(al);
+		botonProcesar.addActionListener(al);
 		botonVolver.addActionListener(al);
 
 	}
 
+	protected void botonEliminarProdActionPerformed(ActionEvent evt,
+			ProductoVO p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected ProductoVO botonBuscarProdActionPerformed(ActionEvent evt,
+			String codigo) {
+		ProductoDAO productoBD = new ProductoDAO();
+		return productoBD.consultarUnProducto(codigo);
+
+	}
+
+
 	// acciones al precionar los botones
-	private void botonBuscarClienteActionPerformed(ActionEvent evt) {
-		
-
+	private PersonaVO botonBuscarClienteActionPerformed(ActionEvent evt,String codigo) {
+		PersonaDAO personaBD = new PersonaDAO();
+		return personaBD.consultarUnaPersona(codigo);
 	}
 
-	private void botonEliminarProdActionPerformed(ActionEvent evt) {
-
-	}
 
 	private void botonVolverActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
@@ -275,6 +514,28 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		ventanaPrincipal.setVisible(true);
 		this.dispose();
 
+	}
+	
+	private boolean estaEnLista(List<ProductoVO> listaDeCompras,ProductoVO producto){
+		
+		
+		for (ProductoVO productoNew :listaDeCompras) { 
+			if(productoNew.getIdproduc().contentEquals(producto.getIdproduc()) ){
+				return true;
+				
+			}
+		}
+		return false;
+	}
+	
+	private boolean existePersona(String codigo){
+		PersonaDAO personaBD = new PersonaDAO();
+		PersonaVO personaConsultada=personaBD.consultarUnaPersona(codigo);
+		
+		if (personaConsultada.getCid().contains(codigo))
+			return true;
+		
+	return false;
 	}
 
 	@SuppressWarnings("unused")
