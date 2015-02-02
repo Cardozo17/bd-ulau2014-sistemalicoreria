@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import com.Proyecto.conexionBD.DBConnection;
 import com.Proyecto.modelovo.ClienteVO;
+import com.Proyecto.modelovo.ClienteVO;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
@@ -42,6 +43,33 @@ public class ClienteDAO {
 	  }
 	  
 	 }
+	 
+	 
+	 public ClienteVO consultarUnCliente(String documento) {
+		  DBConnection conex= new DBConnection();
+		  ClienteVO Micliente= new ClienteVO();
+		  try {
+		   PreparedStatement consulta = (PreparedStatement) conex.getConnection().prepareStatement("SELECT * FROM cliente where cid = ? ");
+		   consulta.setString(1, documento);
+		   ResultSet res = consulta.executeQuery();
+		    
+		  if(res.next()){
+		    Micliente.setCid(res.getString("cid"));
+		    Micliente.setNombre(res.getString("nombre"));
+		    Micliente.setApellido(res.getString("apellido"));
+		    Micliente.setTelf(res.getString("telf"));
+		    Micliente.setDireccion(res.getString("direccion"));
+		
+		          }
+		          res.close();
+		          consulta.close();
+		          conex.desconectar();
+		    
+		  } catch (Exception e) {
+		   JOptionPane.showMessageDialog(null, "no se pudo consultar la Persona\n"+e);
+		  }
+		  return Micliente;
+		 }
 	 
 	 public boolean actualizarCliente(ClienteVO cliente) {
 		  DBConnection conex= new DBConnection();

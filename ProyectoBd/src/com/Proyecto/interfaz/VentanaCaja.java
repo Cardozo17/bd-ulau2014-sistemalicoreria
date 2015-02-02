@@ -9,10 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,15 +21,19 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.PlainDocument;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
+import com.Proyecto.modelodao.ClienteDAO;
 import com.Proyecto.modelodao.DatosEmpresaDAO;
-import com.Proyecto.modelodao.PersonaDAO;
 import com.Proyecto.modelodao.ProductoDAO;
+import com.Proyecto.modelovo.ClienteVO;
 import com.Proyecto.modelovo.DatosEmpresaVO;
-import com.Proyecto.modelovo.PersonaVO;
 import com.Proyecto.modelovo.ProductoVO;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 public class VentanaCaja extends JFrame implements ActionListener {
 
@@ -38,6 +42,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unused")
 	public VentanaCaja() {
 
 		initGUI();
@@ -46,9 +51,9 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		setTitle("Gestor de licoreria");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 
-		// setSize(800, 600);
-		setSize((int) (tk.getScreenSize().getWidth()),
-				(int) (tk.getScreenSize().getHeight()));
+		setSize(1200, 750);
+		//setSize((int) (tk.getScreenSize().getWidth()),
+		//		(int) (tk.getScreenSize().getHeight()));
 		setVisible(true);
 		setResizable(true);
 
@@ -60,7 +65,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		getContentPane().setBackground(Color.WHITE);
 		GridBagConstraints config = new GridBagConstraints();
 		
-		List<ProductoVO> listaDeCompras = new ArrayList<ProductoVO>();
+		final List<ProductoVO> listaDeCompras = new ArrayList<ProductoVO>();
 		DatosEmpresaVO datosEmp;
 		DatosEmpresaDAO consultarDatosEmp = new DatosEmpresaDAO();
 		datosEmp = consultarDatosEmp.consultarUnaEmpresa();
@@ -129,7 +134,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		JTable tabla = new JTable();
 		String[] columnas = { "Nombre", "Cantidad", "Precio Unitario","Precio" };
 
-		DefaultTableModel modelo = new DefaultTableModel();
+		final DefaultTableModel modelo = new DefaultTableModel();
 		JScrollPane desplazamiento = new JScrollPane(tabla);
 
 		// Modelo de la tabla
@@ -170,7 +175,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta0, config);
 
-		JLabel etiquetaNombrePersona = new JLabel("");
+		final JLabel etiquetaNombrePersona = new JLabel("");
 		etiquetaNombrePersona.setFont(new java.awt.Font("Arial", Font.BOLD, 30));
 		config.gridx = 6;
 		config.gridy = 5;
@@ -189,15 +194,32 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.weighty = 0;
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta2, config);
-
-		JTextField txtCedula = new JTextField("");
+		
+		final JFormattedTextField txtCedula = new JFormattedTextField("");
 		config.gridx = 7;
 		config.gridy = 5;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		config.weighty = 0;
 		config.fill = GridBagConstraints.HORIZONTAL;
-		getContentPane().add(txtCedula, config);
+        try {
+            MaskFormatter formatter = new MaskFormatter("U-########");
+            //formatter.setValidCharacters("VvEeJjNn");
+            formatter.setPlaceholderCharacter('_');
+            formatter.install(txtCedula);
+        } catch (ParseException | java.text.ParseException ex) {
+           // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getContentPane().add(txtCedula, config);	
+
+	/*	final JTextField txtCedula = new JTextField("");
+		config.gridx = 7;
+		config.gridy = 5;
+		config.gridheight = 1;
+		config.gridwidth = 1;
+		config.weighty = 0;
+		config.fill = GridBagConstraints.HORIZONTAL;
+		getContentPane().add(txtCedula, config);*/
 
 		JLabel etiqueta3 = new JLabel("Codigo ");
 		etiqueta3.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
@@ -209,7 +231,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta3, config);
 
-		JTextField txtCodigo = new JTextField("");
+		final JTextField txtCodigo = new JTextField("");
 		config.gridx = 7;
 		config.gridy = 8;
 		config.gridheight = 1;
@@ -228,7 +250,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta4, config);
 
-		JLabel etiquetaNombreProducto = new JLabel("");
+		final JLabel etiquetaNombreProducto = new JLabel("");
 		etiquetaNombreProducto.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
 		config.gridx = 6;
 		config.gridy = 8;
@@ -248,13 +270,14 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta5, config);
 
-		JTextField txtCantidad = new JTextField("");
+		final JTextField txtCantidad = new JTextField("");
 		config.gridx = 7;
 		config.gridy = 10;
 		config.gridheight = 1;
 		config.gridwidth = 1;
 		// config.weighty=0;
 		config.fill = GridBagConstraints.HORIZONTAL;
+		txtCantidad.setDocument(new FixedSizeIntNumberDocument(txtCantidad,5));
 		getContentPane().add(txtCantidad, config);
 
 		/*********************** Creando los botones *******************/
@@ -336,7 +359,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		config.fill = GridBagConstraints.BOTH;
 		getContentPane().add(etiqueta7, config);
 		
-		JLabel etiquetaTotal = new JLabel("0.0");
+		final JLabel etiquetaTotal = new JLabel("0.0");
 		etiquetaTotal.setFont(new java.awt.Font("Arial", Font.BOLD, 34));
 		config.gridx = 2;
 		config.gridy = 14;
@@ -437,7 +460,7 @@ public class VentanaCaja extends JFrame implements ActionListener {
 						JOptionPane.showMessageDialog(null, "Debe ingresar un cliente valido\n");
 					}
 					else{
-							PersonaVO personaConsultada;
+							ClienteVO personaConsultada;
 							personaConsultada =botonBuscarClienteActionPerformed(evt, codigoPersona);
 							etiquetaNombrePersona.setText(personaConsultada.getNombre()); 
 					}
@@ -486,6 +509,39 @@ public class VentanaCaja extends JFrame implements ActionListener {
 		botonVolver.addActionListener(al);
 
 	}
+	
+	@SuppressWarnings("serial")
+	private class FixedSizeIntNumberDocument extends PlainDocument
+	{
+	    private JTextComponent owner;
+	    private int fixedSize;
+
+	    public FixedSizeIntNumberDocument(JTextComponent owner, int fixedSize)
+	    {
+	        this.owner = owner;
+	        this.fixedSize = fixedSize;
+	    }
+
+	    @Override
+	    public void insertString(int offs, String str, AttributeSet a)
+	            throws BadLocationException
+	    {
+	        if (getLength() + str.length() > fixedSize) {
+	            str = str.substring(0, fixedSize - getLength());
+	            this.owner.getToolkit().beep();
+	        }
+
+	        try {
+	            Integer.parseInt(str);
+	        } catch (NumberFormatException e) {
+	            // inserted text is not a number
+	            this.owner.getToolkit().beep();
+	            return;
+	        }
+
+	        super.insertString(offs, str, a);
+	    }               
+	}
 
 	protected void botonEliminarProdActionPerformed(ActionEvent evt,
 			ProductoVO p) {
@@ -502,9 +558,9 @@ public class VentanaCaja extends JFrame implements ActionListener {
 
 
 	// acciones al precionar los botones
-	private PersonaVO botonBuscarClienteActionPerformed(ActionEvent evt,String codigo) {
-		PersonaDAO personaBD = new PersonaDAO();
-		return personaBD.consultarUnaPersona(codigo);
+	private ClienteVO botonBuscarClienteActionPerformed(ActionEvent evt,String codigo) {
+		ClienteDAO personaBD = new ClienteDAO();
+		return personaBD.consultarUnCliente(codigo);
 	}
 
 
@@ -529,15 +585,15 @@ public class VentanaCaja extends JFrame implements ActionListener {
 	}
 	
 	private boolean existePersona(String codigo){
-		PersonaDAO personaBD = new PersonaDAO();
-		PersonaVO personaConsultada=personaBD.consultarUnaPersona(codigo);
+		ClienteDAO personaBD = new ClienteDAO();
+		ClienteVO personaConsultada=personaBD.consultarUnCliente(codigo);
 		
 		if (personaConsultada.getCid().contains(codigo))
 			return true;
 		
 	return false;
 	}
-
+	
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 

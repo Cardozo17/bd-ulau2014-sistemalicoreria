@@ -1,16 +1,12 @@
 package com.Proyecto.modelodao;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import com.Proyecto.conexionBD.DBConnection;
 import com.Proyecto.modelovo.DatosEmpresaVO;
-import com.Proyecto.modelovo.PersonaVO;
 import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
 
 public class DatosEmpresaDAO {
 
