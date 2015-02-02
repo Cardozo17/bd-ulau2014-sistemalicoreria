@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 
 import com.Proyecto.conexionBD.DBConnection;
 import com.Proyecto.modelovo.ClienteVO;
-import com.Proyecto.modelovo.ClienteVO;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 

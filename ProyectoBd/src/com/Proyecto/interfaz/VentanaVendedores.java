@@ -163,7 +163,7 @@ public class VentanaVendedores extends JFrame implements ActionListener {
         try {
             MaskFormatter formatter = new MaskFormatter("U-########");
             //formatter.setValidCharacters("VvEeJjNn");
-            formatter.setPlaceholderCharacter('_');
+            //formatter.setPlaceholderCharacter('_');
             formatter.install(txtCedula);
         } catch (ParseException | java.text.ParseException ex) {
            // Logger.getLogger(MaskFormatterTest.class.getName()).log(Level.SEVERE, null, ex);
