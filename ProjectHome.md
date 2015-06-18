@@ -1,0 +1,1 @@
+Esta iniciativa surge debido a la necesidad de realizar un proyecto final en la materia base de datos dictada en el semestre U-2014 en la facultad de ingenieria de sistemas en la Universidad de los Andes. El proyecto se desarrolla en el lenguaje de programación JAVA y con el manejador de datos MySQL.
